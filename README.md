@@ -1,0 +1,1 @@
+Widget that allows user to vote for stories directly in JIRA project backlog.
