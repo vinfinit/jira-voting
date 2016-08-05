@@ -1,0 +1,5 @@
+{
+  "publicPath": "public/",
+  "stylus": "src/**/*.styl",
+  "script": "src/**/*.js"
+}
