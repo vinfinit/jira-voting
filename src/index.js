@@ -3,57 +3,51 @@
  */
 
 import VotingDom from './modules/votingDom';
-import RequestManager from './modules/requestManager';
 
-var body = {
-    'fields': {
-        'labels': ['Epic']
-    }
-};
+export default (function(window) {
 
-;(function (window) {
+    let votingDom = new VotingDom();
 
-    class JiraVoting {
-        constructor(project, issueTypes, labels) {
-            this._config = {};
-            this.setConfig({project, issueTypes, labels});
+    class UserVoting {
+        constructor() {}
+
+        static module(path) {
+            return UserVoting.register(path);
         }
 
-        get config() {
-            return this._config;
+        static register(path, module) {
+            let modules = path.split('.'),
+                curModule = UserVoting;
+
+            for (let i = 0; i < modules.length; i++) {
+                if (!curModule[modules[i]]) {
+                    curModule[modules[i]] = {};
+                }
+                if (i === modules.length - 1 && module) {
+                    curModule[modules[i]] = module;
+                }
+                curModule = curModule[modules[i]];
+            }
+
+            return curModule;
         }
 
-        setConfig(config) {
-            this._config.project = config.project;
-            this._config.issueTypes = config.issueTypes;
-            this._config.labels = config.labels;
+        pushSection(title, description, cb) {
+            votingDom.pushSection(title, description, cb);
+            return this;
         }
 
-        getIssues(cb) {
-            var config = this._config;
-            RequestManager.getRequest(
-                `https://localhost:8080/proxy/jira/rest/api/2/search?jql=project = ${config.project} AND issuetype IN (${toJqlString(config.issueTypes)}) AND labels IN (${toJqlString(config.labels)})&maxResults=10`,
-                null,
-                cb);
+        popSection() {
+            votingDom.popSection();
+            return this;
         }
-
-        updateIssue(issue, body, cb) {
-            RequestManager.putRequest(`https://localhost:8080/proxy/jira/rest/api/2/issue/${issue}`, body, cb);
-        }
-    }
-
-    function toJqlString(item) {
-        return Array.isArray(item) ? item.join(',') : item;
     }
 
-    window.jiraVoting = new JiraVoting();
+    // for debug
+    window.UserVoting = UserVoting;
 
-}(window));
+    return UserVoting;
+}(window))
 
-var config = {
-    project: "EPMDHMPERF",
-    issueTypes: "Story",
-    labels: 'wow'
-};
-
-jiraVoting.setConfig(config);
+import jira from './api/jira';
+jira(window.UserVoting);

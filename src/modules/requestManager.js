@@ -24,7 +24,7 @@ export default
                     xhr.setRequestHeader(key, headers[key]);
                 })
             }
-            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('username' + ':' + 'password'));
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('uladzimir_artsemenka' + ':' + 'GysnGlb379dv8'));
 
             xhr.send(data);
 

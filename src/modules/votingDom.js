@@ -25,12 +25,12 @@ export default (function(document) {
             document.body.appendChild(votingWrapper);
         }
 
-        pushSection(title, description) {
+        pushSection(title, description, cb) {
             let votingSection = document.createElement('div');
             votingSection.innerHTML =
                 `<div class="voting-section-title">${title}</div>
                 <div class="voting-section-description">${description}</div>
-                <div class="voting-section-submit"><button>Vote</button></div>`;
+                <div class="voting-section-submit"><button onclick="cb()">Vote</button></div>`;
 
             votingContent.appendChild(votingSection);
             votingList.push(votingSection);
