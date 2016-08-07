@@ -334,7 +334,7 @@
 	                    xhr.setRequestHeader(key, headers[key]);
 	                });
 	            }
-	            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('uladzimir_artsemenka' + ':' + 'GysnGlb379dv8'));
+	            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('username' + ':' + 'password'));
 
 	            xhr.send(data);
 
