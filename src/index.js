@@ -49,5 +49,18 @@ export default (function(window) {
     return UserVoting;
 }(window))
 
-import jira from './api/jira';
-jira(window.UserVoting);
+import Jira from './api/jira';
+var jira = Jira(window.UserVoting);
+window.jira = jira;
+
+var config = {
+    project: "EPMDHMTEST",
+    issueTypes: "Story",
+    labels: ''
+};
+jira.setConfig(config);
+jira.getIssues((data) => {
+    var issues = JSON.parse(data).issues;
+    window.issue = issues[0];
+    console.log(issues)
+});

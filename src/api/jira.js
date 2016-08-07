@@ -9,6 +9,8 @@ export default function (UserVoting) {
         throw new Error('Module UserVoting not found!');
     }
 
+    let userVoting = new UserVoting();
+
     class JiraVoting {
         constructor(project, issueTypes, labels) {
             this.config = {};
@@ -30,6 +32,10 @@ export default function (UserVoting) {
                 cb);
         }
 
+        pushIssue(issue) {
+            userVoting.pushSection(issue.key, issue.fields.issuetype.description, () => console.log('hello'))
+        }
+
         updateIssue(issue, body, cb) {
             RequestManager.putRequest(`https://localhost:8080/proxy/jira/rest/api/2/issue/${issue}`, body, cb);
         }
@@ -41,7 +47,7 @@ export default function (UserVoting) {
 
     UserVoting.register('api.jira', new JiraVoting());
 
-    return JiraVoting;
+    return UserVoting.module('api.jira');
 }
 
 //var body = {
