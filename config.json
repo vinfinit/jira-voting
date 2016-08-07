@@ -1,5 +1,22 @@
 {
   "publicPath": "public/",
   "stylus": "src/**/*.styl",
-  "script": "src/**/*.js"
+  "entryScript": "src/index.js",
+  "script": "src/**/*.js",
+  "webpack": {
+    "config": {
+      "module": {
+        "loaders": [{
+          "loader": "babel-loader",
+          "exclude": "/node_modules/",
+          "query": {
+            "presets": ["es2015"]
+          }
+        }]
+      },
+      "output": {
+        "filename": "index.js"
+      }
+    }
+  }
 }
