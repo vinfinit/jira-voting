@@ -4,19 +4,13 @@
 
 export default (function(document) {
 
-    let votingSections = [];
+    let votingList = [],
+        votingContent = document.createElement('section');
 
     return class VotingContainer {
-        constructor(label, sectionCount) {
-            for (let i = 0; i < sectionCount; i++) {
-                let votingSection = document.createElement('div');
-                votingSection.id = `voting-section-${i}`;
-                votingSections.push(votingSection);
-            }
-
+        constructor(label) {
             let votingWrapper = document.createElement('section'),
-                votingTitle = document.createElement('div'),
-                votingContent = document.createElement('section');
+                votingTitle = document.createElement('div');
 
             votingWrapper.className = 'voting-wrapper';
             votingTitle.className = 'voting-title';
@@ -24,18 +18,36 @@ export default (function(document) {
 
             votingTitle.innerHTML = label;
 
-            votingSections.forEach(voting => votingContent.appendChild(voting));
+            votingList.forEach(voting => votingContent.appendChild(voting));
             votingWrapper.appendChild(votingTitle);
             votingWrapper.appendChild(votingContent);
 
             document.body.appendChild(votingWrapper);
         }
 
+        pushSection(title, description) {
+            let votingSection = document.createElement('div');
+            votingSection.innerHTML =
+                `<div class="voting-section-title">${title}</div>
+                <div class="voting-section-description">${description}</div>
+                <div class="voting-section-submit"><button>Vote</button></div>`;
+
+            votingContent.appendChild(votingSection);
+            votingList.push(votingSection);
+            return this;
+        }
+
+        popSection() {
+            let votingSection = votingList.pop();
+            votingSection.parentNode.removeChild(votingSection);
+            return this;
+        }
+
         getSection(index) {
-            if (index >= votingSections) {
+            if (index >= votingList) {
                 throw new Error('error with count')
             }
-            return votingSections[index];
+            return votingList[index];
         }
     }
 
