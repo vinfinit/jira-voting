@@ -11,6 +11,7 @@ import config from "../config.json";
 // Get one .styl file and render
 export default function () {
     return gulp.src(config.script)
+        .pipe(babel())
         .pipe(webpack(config.webpack.config))
         .pipe(gulp.dest(config.publicPath));
 };

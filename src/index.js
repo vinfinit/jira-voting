@@ -25,6 +25,7 @@ export default function() {
                 }
                 if (i === modules.length - 1 && module) {
                     curModule[modules[i]] = module;
+
                 }
                 curModule = curModule[modules[i]];
             }
