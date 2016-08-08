@@ -10,11 +10,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 exports.default = function () {
 
-    var votingDom = new _votingDom2.default();
+    var votingDom = void 0;
 
     var UserVoting = function () {
-        function UserVoting() {
+        function UserVoting(title) {
             _classCallCheck(this, UserVoting);
+
+            votingDom = new _votingDom2.default(title);
         }
 
         _createClass(UserVoting, [{
@@ -56,11 +58,6 @@ exports.default = function () {
 
         return UserVoting;
     }();
-
-    // for debug
-
-
-    window.UserVoting = UserVoting;
 
     return UserVoting;
 };

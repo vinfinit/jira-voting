@@ -9,10 +9,11 @@ export default function (UserVoting) {
         throw new Error('Module UserVoting not found!');
     }
 
-    let userVoting = new UserVoting();
+    let userVoting;
 
     class JiraVoting {
-        constructor() {
+        constructor(title) {
+            userVoting = new UserVoting(title);
             this.config = {};
         }
 

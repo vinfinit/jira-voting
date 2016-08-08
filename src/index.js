@@ -6,10 +6,12 @@ import VotingDom from './modules/votingDom';
 
 export default function() {
 
-    let votingDom = new VotingDom();
+    let votingDom;
 
     class UserVoting {
-        constructor() {}
+        constructor(title) {
+            votingDom = new VotingDom(title);
+        }
 
         static module(path) {
             return UserVoting.register(path);
@@ -43,9 +45,6 @@ export default function() {
             return this;
         }
     }
-
-    // for debug
-    window.UserVoting = UserVoting;
 
     return UserVoting;
 };

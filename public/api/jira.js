@@ -13,12 +13,13 @@ exports.default = function (UserVoting) {
         throw new Error('Module UserVoting not found!');
     }
 
-    var userVoting = new UserVoting();
+    var userVoting = void 0;
 
     var JiraVoting = function () {
-        function JiraVoting() {
+        function JiraVoting(title) {
             _classCallCheck(this, JiraVoting);
 
+            userVoting = new UserVoting(title);
             this.config = {};
         }
 
