@@ -1,7 +1,6 @@
 {
   "publicPath": "public/",
   "stylus": "src/**/*.styl",
-  "entryScript": "src/index.js",
   "script": "src/**/*.js",
   "webpack": {
     "config": {

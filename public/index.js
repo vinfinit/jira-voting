@@ -44,6 +44,16 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	__webpack_require__(1);
+	__webpack_require__(3);
+	__webpack_require__(4);
+	module.exports = __webpack_require__(2);
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -54,19 +64,7 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Created by vinfinit on 8/7/16.
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
 
-	var _votingDom = __webpack_require__(1);
-
-	var _votingDom2 = _interopRequireDefault(_votingDom);
-
-	var _jira = __webpack_require__(2);
-
-	var _jira2 = _interopRequireDefault(_jira);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	exports.default = function (window) {
+	exports.default = function () {
 
 	    var votingDom = new _votingDom2.default();
 
@@ -121,12 +119,20 @@
 	    window.UserVoting = UserVoting;
 
 	    return UserVoting;
-	}(window);
+	};
 
-	(0, _jira2.default)(window.UserVoting);
+	var _votingDom = __webpack_require__(2);
+
+	var _votingDom2 = _interopRequireDefault(_votingDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	;
 
 /***/ },
-/* 1 */
+/* 2 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -202,7 +208,7 @@
 	}(document);
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -211,24 +217,6 @@
 	    value: true
 	});
 
-	//var body = {
-	//    'fields': {
-	//        'labels': ['Epic']
-	//    }
-	//};
-	//
-	//var config = {
-	//    project: "EPMDHMTEST",
-	//    issueTypes: "Story",
-	//    labels: ''
-	//};
-	//
-	//jiraVoting.setConfig(config);
-	//
-	//jiraVoting.getIssues(data => {
-	//    var data = JSON.parse(data);
-	//    data.issues;
-	//});
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Created by vinfinit on 8/7/16.
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
@@ -238,17 +226,19 @@
 	        throw new Error('Module UserVoting not found!');
 	    }
 
+	    var userVoting = new UserVoting();
+
 	    var JiraVoting = function () {
-	        function JiraVoting(project, issueTypes, labels) {
+	        function JiraVoting() {
 	            _classCallCheck(this, JiraVoting);
 
 	            this.config = {};
-	            this.setConfig({ project: project, issueTypes: issueTypes, labels: labels });
 	        }
 
 	        _createClass(JiraVoting, [{
 	            key: 'setConfig',
 	            value: function setConfig(config) {
+	                this.config.proxyPass = config.proxyPass;
 	                this.config.project = config.project;
 	                this.config.issueTypes = config.issueTypes;
 	                this.config.labels = config.labels;
@@ -258,12 +248,19 @@
 	            value: function getIssues(cb) {
 	                var config = this.config;
 	                // AND labels IN (${toJqlString(config.labels)})
-	                _requestManager2.default.getRequest('https://localhost:8080/proxy/jira/rest/api/2/search?jql=project = ' + config.project + ' AND issuetype IN (' + toJqlString(config.issueTypes) + ')&maxResults=10', null, cb);
+	                _requestManager2.default.getRequest(this.config.proxyPass + 'rest/api/2/search?jql=project = ' + config.project + ' AND issuetype IN (' + toJqlString(config.issueTypes) + ')&maxResults=10', null, cb);
+	            }
+	        }, {
+	            key: 'pushIssue',
+	            value: function pushIssue(issue) {
+	                userVoting.pushSection(issue.key, issue.fields.issuetype.description, function () {
+	                    return console.log('hello');
+	                });
 	            }
 	        }, {
 	            key: 'updateIssue',
 	            value: function updateIssue(issue, body, cb) {
-	                _requestManager2.default.putRequest('https://localhost:8080/proxy/jira/rest/api/2/issue/' + issue, body, cb);
+	                _requestManager2.default.putRequest(this.config.proxyPass + 'rest/api/2/issue/' + issue, body, cb);
 	            }
 	        }]);
 
@@ -276,10 +273,10 @@
 
 	    UserVoting.register('api.jira', new JiraVoting());
 
-	    return JiraVoting;
+	    return UserVoting.module('api.jira');
 	};
 
-	var _requestManager = __webpack_require__(3);
+	var _requestManager = __webpack_require__(4);
 
 	var _requestManager2 = _interopRequireDefault(_requestManager);
 
@@ -288,7 +285,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -334,7 +331,7 @@
 	                    xhr.setRequestHeader(key, headers[key]);
 	                });
 	            }
-	            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('username' + ':' + 'password'));
+	            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('uladzimir_artsemenka' + ':' + 'GysnGlb379dv8'));
 
 	            xhr.send(data);
 

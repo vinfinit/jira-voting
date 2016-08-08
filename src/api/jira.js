@@ -12,12 +12,12 @@ export default function (UserVoting) {
     let userVoting = new UserVoting();
 
     class JiraVoting {
-        constructor(project, issueTypes, labels) {
+        constructor() {
             this.config = {};
-            this.setConfig({project, issueTypes, labels});
         }
 
         setConfig(config) {
+            this.config.proxyPass = config.proxyPass;
             this.config.project = config.project;
             this.config.issueTypes = config.issueTypes;
             this.config.labels = config.labels;
@@ -27,7 +27,7 @@ export default function (UserVoting) {
             var config = this.config;
             // AND labels IN (${toJqlString(config.labels)})
             RequestManager.getRequest(
-                `https://localhost:8080/proxy/jira/rest/api/2/search?jql=project = ${config.project} AND issuetype IN (${toJqlString(config.issueTypes)})&maxResults=10`,
+                `${this.config.proxyPass}rest/api/2/search?jql=project = ${config.project} AND issuetype IN (${toJqlString(config.issueTypes)})&maxResults=10`,
                 null,
                 cb);
         }
@@ -37,7 +37,7 @@ export default function (UserVoting) {
         }
 
         updateIssue(issue, body, cb) {
-            RequestManager.putRequest(`https://localhost:8080/proxy/jira/rest/api/2/issue/${issue}`, body, cb);
+            RequestManager.putRequest(`${this.config.proxyPass}rest/api/2/issue/${issue}`, body, cb);
         }
     }
 
@@ -49,22 +49,3 @@ export default function (UserVoting) {
 
     return UserVoting.module('api.jira');
 }
-
-//var body = {
-//    'fields': {
-//        'labels': ['Epic']
-//    }
-//};
-//
-//var config = {
-//    project: "EPMDHMTEST",
-//    issueTypes: "Story",
-//    labels: ''
-//};
-//
-//jiraVoting.setConfig(config);
-//
-//jiraVoting.getIssues(data => {
-//    var data = JSON.parse(data);
-//    data.issues;
-//});

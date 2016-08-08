@@ -4,7 +4,7 @@
 
 import VotingDom from './modules/votingDom';
 
-export default (function(window) {
+export default function() {
 
     let votingDom = new VotingDom();
 
@@ -47,20 +47,4 @@ export default (function(window) {
     window.UserVoting = UserVoting;
 
     return UserVoting;
-}(window))
-
-import Jira from './api/jira';
-var jira = Jira(window.UserVoting);
-window.jira = jira;
-
-var config = {
-    project: "EPMDHMTEST",
-    issueTypes: "Story",
-    labels: ''
 };
-jira.setConfig(config);
-jira.getIssues((data) => {
-    var issues = JSON.parse(data).issues;
-    window.issue = issues[0];
-    console.log(issues)
-});

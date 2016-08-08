@@ -10,7 +10,7 @@ import config from "../config.json";
 
 // Get one .styl file and render
 export default function () {
-    return gulp.src(config.entryScript)
+    return gulp.src(config.script)
         .pipe(webpack(config.webpack.config))
         .pipe(gulp.dest(config.publicPath));
 };
