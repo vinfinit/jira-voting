@@ -35,6 +35,28 @@ exports.default = function (UserVoting) {
                 this.config.password = config.password;
             }
         }, {
+            key: 'init',
+            value: function init(column, body) {
+                var _this = this;
+
+                this.clear();
+                this.getIssues(function (data) {
+                    var issues = JSON.parse(data).issues;
+
+                    var _loop = function _loop(i) {
+                        jiraVoting.pushIssue(issues[i], function () {
+                            return _this.updateIssue(issues[i], body, function () {
+                                return _this.init(column, body);
+                            });
+                        });
+                    };
+
+                    for (var i = 0; i < column; i++) {
+                        _loop(i);
+                    }
+                });
+            }
+        }, {
             key: 'getIssues',
             value: function getIssues(cb) {
                 var config = this.config;
@@ -42,15 +64,21 @@ exports.default = function (UserVoting) {
             }
         }, {
             key: 'pushIssue',
-            value: function pushIssue(issue) {
-                userVoting.pushSection(issue.key, issue.fields.issuetype.description, function () {
-                    return console.log('hello');
-                });
+            value: function pushIssue(issue, cb) {
+                userVoting.pushSection(issue.key, issue.fields.issuetype.description, cb);
+                return this;
             }
         }, {
             key: 'updateIssue',
             value: function updateIssue(issue, body, cb) {
-                _requestManager2.default.putRequest(this.config.proxyPass + 'rest/api/2/issue/' + issue, body, cb);
+                _requestManager2.default.putRequest(this.config.proxyPass + 'rest/api/2/issue/' + issue.key, body, cb);
+                return this;
+            }
+        }, {
+            key: 'clear',
+            value: function clear() {
+                userVoting.clear();
+                return this;
             }
         }]);
 

@@ -31,6 +31,12 @@ exports.default = function () {
                 votingDom.popSection();
                 return this;
             }
+        }, {
+            key: 'clear',
+            value: function clear() {
+                votingDom.clear();
+                return this;
+            }
         }], [{
             key: 'module',
             value: function module(path) {

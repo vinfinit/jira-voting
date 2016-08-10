@@ -25,7 +25,7 @@ export default (function(document) {
             document.body.appendChild(votingWrapper);
         }
 
-        pushSection(title, description, cb) {
+        pushSection(title, description) {
             let votingSection = document.createElement('div');
             votingSection.innerHTML =
                 `<div class="voting-section-title">${title}</div>
@@ -41,6 +41,12 @@ export default (function(document) {
             let votingSection = votingList.pop();
             votingSection.parentNode.removeChild(votingSection);
             return this;
+        }
+
+        clear() {
+            while (votingList.length) {
+                this.popSection();
+            }
         }
 
         getSection(index) {

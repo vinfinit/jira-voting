@@ -44,6 +44,11 @@ export default function() {
             votingDom.popSection();
             return this;
         }
+
+        clear() {
+            votingDom.clear();
+            return this;
+        }
     }
 
     return UserVoting;

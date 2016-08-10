@@ -27,6 +27,18 @@ export default function (UserVoting) {
             this.config.password = config.password;
         }
 
+        init(column, body) {
+            this.clear();
+            this.getIssues(data => {
+                var issues = JSON.parse(data).issues;
+                for (let i = 0; i < column; i++) {
+                    jiraVoting.pushIssue(
+                        issues[i],
+                        () => this.updateIssue(issues[i], body, () => this.init(column, body)))
+                }
+            });
+        }
+
         getIssues(cb) {
             var config = this.config;
             RequestManager.getRequest(
@@ -36,12 +48,19 @@ export default function (UserVoting) {
                 cb);
         }
 
-        pushIssue(issue) {
-            userVoting.pushSection(issue.key, issue.fields.issuetype.description, () => console.log('hello'))
+        pushIssue(issue, cb) {
+            userVoting.pushSection(issue.key, issue.fields.issuetype.description, cb);
+            return this;
         }
 
         updateIssue(issue, body, cb) {
-            RequestManager.putRequest(`${this.config.proxyPass}rest/api/2/issue/${issue}`, body, cb);
+            RequestManager.putRequest(`${this.config.proxyPass}rest/api/2/issue/${issue.key}`, body, cb);
+            return this;
+        }
+
+        clear() {
+            userVoting.clear();
+            return this;
         }
     }
 
