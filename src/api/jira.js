@@ -42,7 +42,7 @@ export default function (UserVoting) {
         getIssues(cb) {
             var config = this.config;
             RequestManager.getRequest(
-                `${config.proxyPass}rest/api/2/search?${JqlStringBuilder(config)}`,
+                `${config.proxyPass}rest/api/2/search?${JqlStringBuilder.url(config)}`,
                 null,
                 {'Authorization': `Basic ${btoa(config.authorization.userName + ':' + config.authorization.password)}`},
                 cb);
@@ -65,7 +65,7 @@ export default function (UserVoting) {
     }
 
     class JqlStringBuilder {
-        static createUrl(config) {
+        static url(config) {
             let jqlString = `jql=project = ${config.project}`;
             if (config.issueTypes) {
                 jqlString += ` AND issuetype IN (${JqlStringBuilder.create(config.issueTypes)})`;

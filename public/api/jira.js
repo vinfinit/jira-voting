@@ -60,7 +60,7 @@ exports.default = function (UserVoting) {
             key: 'getIssues',
             value: function getIssues(cb) {
                 var config = this.config;
-                _requestManager2.default.getRequest(config.proxyPass + 'rest/api/2/search?' + JqlStringBuilder(config), null, { 'Authorization': 'Basic ' + btoa(config.authorization.userName + ':' + config.authorization.password) }, cb);
+                _requestManager2.default.getRequest(config.proxyPass + 'rest/api/2/search?' + JqlStringBuilder.url(config), null, { 'Authorization': 'Basic ' + btoa(config.authorization.userName + ':' + config.authorization.password) }, cb);
             }
         }, {
             key: 'pushIssue',
@@ -91,8 +91,8 @@ exports.default = function (UserVoting) {
         }
 
         _createClass(JqlStringBuilder, null, [{
-            key: 'createUrl',
-            value: function createUrl(config) {
+            key: 'url',
+            value: function url(config) {
                 var jqlString = 'jql=project = ' + config.project;
                 if (config.issueTypes) {
                     jqlString += ' AND issuetype IN (' + JqlStringBuilder.create(config.issueTypes) + ')';
