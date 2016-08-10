@@ -23,8 +23,10 @@ export default function (UserVoting) {
             this.config.issueTypes = config.issueTypes;
             this.config.labels = config.labels;
 
-            this.config.userName = config.userName;
-            this.config.password = config.password;
+            this.config.authorization = {
+                userName: config.userName,
+                password: config.password
+            };
         }
 
         init(column, body) {
