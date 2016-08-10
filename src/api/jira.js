@@ -34,7 +34,7 @@ export default function (UserVoting) {
             this.getIssues(data => {
                 var issues = JSON.parse(data).issues;
                 for (let i = 0; i < column; i++) {
-                    jiraVoting.pushIssue(
+                    this.pushIssue(
                         issues[i],
                         () => this.updateIssue(issues[i], body, () => this.init(column, body)))
                 }
@@ -75,6 +75,7 @@ export default function (UserVoting) {
             if (config.labels) {
                 jqlString += ` AND labels IN (${JqlStringBuilder.create(config.labels)})`;
             }
+            return jqlString;
         }
 
         static create(item) {

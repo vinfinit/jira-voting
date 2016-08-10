@@ -14,8 +14,8 @@ export default
             RequestManager.request('PUT', url, body, headers, cb);
         }
 
-        static getRequest(url, body, cb) {
-            RequestManager.request('GET', url, body, null, cb);
+        static getRequest(url, body, headers, cb) {
+            RequestManager.request('GET', url, body, headers, cb);
         }
 
         static request(type, url, body, headers, cb) {

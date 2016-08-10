@@ -30,8 +30,8 @@ var RequestManager = function () {
         }
     }, {
         key: 'getRequest',
-        value: function getRequest(url, body, cb) {
-            RequestManager.request('GET', url, body, null, cb);
+        value: function getRequest(url, body, headers, cb) {
+            RequestManager.request('GET', url, body, headers, cb);
         }
     }, {
         key: 'request',

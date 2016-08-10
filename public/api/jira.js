@@ -46,7 +46,7 @@ exports.default = function (UserVoting) {
                     var issues = JSON.parse(data).issues;
 
                     var _loop = function _loop(i) {
-                        jiraVoting.pushIssue(issues[i], function () {
+                        _this.pushIssue(issues[i], function () {
                             return _this.updateIssue(issues[i], body, function () {
                                 return _this.init(column, body);
                             });
@@ -102,6 +102,7 @@ exports.default = function (UserVoting) {
                 if (config.labels) {
                     jqlString += ' AND labels IN (' + JqlStringBuilder.create(config.labels) + ')';
                 }
+                return jqlString;
             }
         }, {
             key: 'create',
