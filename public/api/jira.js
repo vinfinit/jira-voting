@@ -30,13 +30,15 @@ exports.default = function (UserVoting) {
                 this.config.project = config.project;
                 this.config.issueTypes = config.issueTypes;
                 this.config.labels = config.labels;
+
+                this.config.userName = config.userName;
+                this.config.password = config.password;
             }
         }, {
             key: 'getIssues',
             value: function getIssues(cb) {
                 var config = this.config;
-                // AND labels IN (${toJqlString(config.labels)})
-                _requestManager2.default.getRequest(this.config.proxyPass + 'rest/api/2/search?jql=project = ' + config.project + ' AND issuetype IN (' + toJqlString(config.issueTypes) + ')&maxResults=10', null, cb);
+                _requestManager2.default.getRequest(config.proxyPass + 'rest/api/2/search?' + JqlStringBuilder(config), null, { 'Authorization': 'Basic ' + btoa(config.authorization.userName + ':' + config.authorization.password) }, cb);
             }
         }, {
             key: 'pushIssue',
@@ -55,9 +57,31 @@ exports.default = function (UserVoting) {
         return JiraVoting;
     }();
 
-    function toJqlString(item) {
-        return Array.isArray(item) ? item.join(',') : item;
-    }
+    var JqlStringBuilder = function () {
+        function JqlStringBuilder() {
+            _classCallCheck(this, JqlStringBuilder);
+        }
+
+        _createClass(JqlStringBuilder, null, [{
+            key: 'createUrl',
+            value: function createUrl(config) {
+                var jqlString = 'jql=project = ' + config.project;
+                if (config.issueTypes) {
+                    jqlString += ' AND issuetype IN (' + JqlStringBuilder.create(config.issueTypes) + ')';
+                }
+                if (config.labels) {
+                    jqlString += ' AND labels IN (' + JqlStringBuilder.create(config.labels) + ')';
+                }
+            }
+        }, {
+            key: 'create',
+            value: function create(item) {
+                return Array.isArray(item) ? item.join(',') : item;
+            }
+        }]);
+
+        return JqlStringBuilder;
+    }();
 
     UserVoting.register('api.jira', new JiraVoting());
 

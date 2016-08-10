@@ -22,14 +22,17 @@ export default function (UserVoting) {
             this.config.project = config.project;
             this.config.issueTypes = config.issueTypes;
             this.config.labels = config.labels;
+
+            this.config.userName = config.userName;
+            this.config.password = config.password;
         }
 
         getIssues(cb) {
             var config = this.config;
-            // AND labels IN (${toJqlString(config.labels)})
             RequestManager.getRequest(
-                `${this.config.proxyPass}rest/api/2/search?jql=project = ${config.project} AND issuetype IN (${toJqlString(config.issueTypes)})&maxResults=10`,
+                `${config.proxyPass}rest/api/2/search?${JqlStringBuilder(config)}`,
                 null,
+                {'Authorization': `Basic ${btoa(config.authorization.userName + ':' + config.authorization.password)}`},
                 cb);
         }
 
@@ -42,8 +45,20 @@ export default function (UserVoting) {
         }
     }
 
-    function toJqlString(item) {
-        return Array.isArray(item) ? item.join(',') : item;
+    class JqlStringBuilder {
+        static createUrl(config) {
+            let jqlString = `jql=project = ${config.project}`;
+            if (config.issueTypes) {
+                jqlString += ` AND issuetype IN (${JqlStringBuilder.create(config.issueTypes)})`;
+            }
+            if (config.labels) {
+                jqlString += ` AND labels IN (${JqlStringBuilder.create(config.labels)})`;
+            }
+        }
+
+        static create(item) {
+            return Array.isArray(item) ? item.join(',') : item;
+        }
     }
 
     UserVoting.register('api.jira', new JiraVoting());

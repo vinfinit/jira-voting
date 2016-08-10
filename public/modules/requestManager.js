@@ -19,20 +19,23 @@ var RequestManager = function () {
 
     _createClass(RequestManager, null, [{
         key: 'putRequest',
-        value: function putRequest(url, data, cb) {
-            var headers = {
-                'Content-type': 'application/json; charset=utf-8'
-            };
-            RequestManager.request('PUT', url, data, headers, cb);
+        value: function putRequest(url, body, headers, cb) {
+            if (typeof headers === 'function') {
+                cb = headers;
+                headers = {};
+            }
+            headers['Content-type'] = 'application/json; charset=utf-8';
+
+            RequestManager.request('PUT', url, body, headers, cb);
         }
     }, {
         key: 'getRequest',
-        value: function getRequest(url, data, cb) {
-            RequestManager.request('GET', url, data, null, cb);
+        value: function getRequest(url, body, cb) {
+            RequestManager.request('GET', url, body, null, cb);
         }
     }, {
         key: 'request',
-        value: function request(type, url, data, headers, cb) {
+        value: function request(type, url, body, headers, cb) {
             var xhr = new XMLHttpRequest();
             xhr.open(type, url, true);
 
@@ -41,9 +44,8 @@ var RequestManager = function () {
                     xhr.setRequestHeader(key, headers[key]);
                 });
             }
-            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('uladzimir_artsemenka' + ':' + 'GysnGlb379dv8'));
 
-            xhr.send(data);
+            xhr.send(body);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState != 4) return;

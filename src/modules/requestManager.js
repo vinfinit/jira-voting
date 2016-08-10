@@ -4,18 +4,21 @@
 
 export default
     class RequestManager {
-        static putRequest(url, data, cb) {
-            var headers = {
-                'Content-type': 'application/json; charset=utf-8'
-            };
-            RequestManager.request('PUT', url, data, headers, cb);
+        static putRequest(url, body, headers, cb) {
+            if (typeof headers === 'function') {
+                cb = headers;
+                headers = {};
+            }
+            headers['Content-type'] = 'application/json; charset=utf-8';
+
+            RequestManager.request('PUT', url, body, headers, cb);
         }
 
-        static getRequest(url, data, cb) {
-            RequestManager.request('GET', url, data, null, cb);
+        static getRequest(url, body, cb) {
+            RequestManager.request('GET', url, body, null, cb);
         }
 
-        static request(type, url, data, headers, cb) {
+        static request(type, url, body, headers, cb) {
             var xhr = new XMLHttpRequest();
             xhr.open(type, url, true);
 
@@ -24,9 +27,8 @@ export default
                     xhr.setRequestHeader(key, headers[key]);
                 })
             }
-            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('uladzimir_artsemenka' + ':' + 'GysnGlb379dv8'));
 
-            xhr.send(data);
+            xhr.send(body);
 
             xhr.onreadystatechange = () => {
                 if (xhr.readyState != 4) return;
