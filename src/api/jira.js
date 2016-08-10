@@ -85,5 +85,5 @@ export default function (UserVoting) {
 
     UserVoting.register('api.jira', new JiraVoting());
 
-    return UserVoting.module('api.jira');
+    return UserVoting.module(`api.jira`);
 }

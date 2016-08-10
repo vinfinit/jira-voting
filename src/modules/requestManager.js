@@ -5,12 +5,6 @@
 export default
     class RequestManager {
         static putRequest(url, body, headers, cb) {
-            if (typeof headers === 'function') {
-                cb = headers;
-                headers = {};
-            }
-            headers['Content-type'] = 'application/json; charset=utf-8';
-
             RequestManager.request('PUT', url, body, headers, cb);
         }
 
@@ -21,6 +15,12 @@ export default
         static request(type, url, body, headers, cb) {
             var xhr = new XMLHttpRequest();
             xhr.open(type, url, true);
+
+            if (typeof headers === 'function') {
+                cb = headers;
+                headers = {};
+            }
+            headers['Content-type'] = 'application/json; charset=utf-8';
 
             if (headers) {
                 Object.keys(headers).forEach(key => {
