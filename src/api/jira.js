@@ -38,11 +38,12 @@ export default function (UserVoting) {
             body = JSON.stringify(body);
             this.clear();
             this.getIssues(data => {
-                var issues = JSON.parse(data).issues;
+                let issues = JSON.parse(data).issues;
                 for (let i = 0; i < column; i++) {
+                    let issue = Math.ceil(Math.random() * issues.length);
                     this.pushIssue(
-                        issues[i],
-                        () => this.updateIssue(issues[i], body, () => this.init(column, body)))
+                        issue,
+                        () => this.updateIssue(issue, body, () => this.init(column, body)))
                 }
             });
         }
