@@ -3,6 +3,7 @@
  */
 
 import RequestManager from '../modules/requestManager';
+import Set from 'set-collection';
 
 export default function (UserVoting) {
     if (!UserVoting) {

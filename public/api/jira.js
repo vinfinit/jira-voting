@@ -49,7 +49,7 @@ exports.default = function (UserVoting) {
                 this.clear();
                 this.getIssues(function (data) {
                     var issues = JSON.parse(data).issues,
-                        indexes = new Set();
+                        indexes = new _setCollection2.default();
 
                     var _loop = function _loop(_i) {
                         var index = Math.ceil(Math.random() * (issues.length - 1));
@@ -139,6 +139,10 @@ exports.default = function (UserVoting) {
 var _requestManager = require('../modules/requestManager');
 
 var _requestManager2 = _interopRequireDefault(_requestManager);
+
+var _setCollection = require('set-collection');
+
+var _setCollection2 = _interopRequireDefault(_setCollection);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
