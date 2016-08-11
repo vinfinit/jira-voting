@@ -37,9 +37,15 @@ export default function (UserVoting) {
         init(column, body) {
             this.clear();
             this.getIssues(data => {
-                let issues = JSON.parse(data).issues;
+                let issues = JSON.parse(data).issues,
+                    indexes = new Set();
                 for (let i = 0; i < column; i++) {
-                    let issue = issues[Math.ceil(Math.random() * issues.length)];
+                    let index = Math.ceil(Math.random() * (issues.length - 1));
+                    if (indexes.has(index)) {
+                        i--;
+                        continue;
+                    }
+                    let issue = issues[index];
                     this.pushIssue(
                         issue,
                         () => this.updateIssue(issue, JSON.stringify(body), () => this.init(column, body)))

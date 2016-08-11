@@ -48,19 +48,28 @@ exports.default = function (UserVoting) {
 
                 this.clear();
                 this.getIssues(function (data) {
-                    var issues = JSON.parse(data).issues;
+                    var issues = JSON.parse(data).issues,
+                        indexes = new Set();
 
-                    var _loop = function _loop(i) {
-                        var issue = issues[Math.ceil(Math.random() * issues.length)];
+                    var _loop = function _loop(_i) {
+                        var index = Math.ceil(Math.random() * (issues.length - 1));
+                        if (indexes.has(index)) {
+                            _i--;
+                            return 'continue';
+                        }
+                        var issue = issues[index];
                         _this.pushIssue(issue, function () {
                             return _this.updateIssue(issue, JSON.stringify(body), function () {
                                 return _this.init(column, body);
                             });
                         });
+                        i = _i;
                     };
 
                     for (var i = 0; i < column; i++) {
-                        _loop(i);
+                        var _ret = _loop(i);
+
+                        if (_ret === 'continue') continue;
                     }
                 });
             }
