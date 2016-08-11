@@ -50,12 +50,11 @@ exports.default = function (UserVoting) {
                 this.getIssues(function (data) {
                     var issues = JSON.parse(data).issues,
                         indexes = new _setCollection2.default();
-
-                    var _loop = function _loop(_i) {
+                    for (var i = 0; i < column; i++) {
                         var index = Math.ceil(Math.random() * (issues.length - 1));
                         if (indexes.has(index)) {
-                            _i--;
-                            return 'continue';
+                            i--;
+                            continue;
                         }
                         indexes.add(index);
                         var issue = issues[index];
@@ -64,13 +63,6 @@ exports.default = function (UserVoting) {
                                 return _this.init(column, body);
                             });
                         });
-                        i = _i;
-                    };
-
-                    for (var i = 0; i < column; i++) {
-                        var _ret = _loop(i);
-
-                        if (_ret === 'continue') continue;
                     }
                 });
             }
