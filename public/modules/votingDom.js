@@ -23,9 +23,11 @@ exports.default = function (document) {
             _classCallCheck(this, VotingContainer);
 
             var votingWrapper = document.createElement('section'),
+                votingHeader = document.createElement('div'),
                 votingClose = document.createElement('button');
 
             votingWrapper.className = 'voting-wrapper';
+            votingHeader.className = 'voting-header';
             votingTitle.className = 'voting-title';
             votingContent.className = 'voting-content';
             votingClose.className = 'voting-close';
@@ -35,12 +37,13 @@ exports.default = function (document) {
             votingClose.onclick = function () {
                 return votingWrapper.parentNode.removeChild(votingWrapper);
             };
-            votingTitle.appendChild(votingClose);
+            votingHeader.appendChild(votingTitle);
+            votingHeader.appendChild(votingClose);
 
             votingList.forEach(function (voting) {
                 return votingContent.appendChild(voting);
             });
-            votingWrapper.appendChild(votingTitle);
+            votingWrapper.appendChild(votingHeader);
             votingWrapper.appendChild(votingContent);
 
             document.body.appendChild(votingWrapper);

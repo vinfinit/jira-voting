@@ -11,9 +11,11 @@ export default (function(document) {
     return class VotingContainer {
         constructor(label) {
             let votingWrapper = document.createElement('section'),
+                votingHeader = document.createElement('div'),
                 votingClose = document.createElement('button');
 
             votingWrapper.className = 'voting-wrapper';
+            votingHeader.className = 'voting-header';
             votingTitle.className = 'voting-title';
             votingContent.className = 'voting-content';
             votingClose.className = 'voting-close';
@@ -21,10 +23,11 @@ export default (function(document) {
             votingTitle.innerHTML = `<span>${label}</span>`;
             votingClose.innerHTML = 'X';
             votingClose.onclick = () => votingWrapper.parentNode.removeChild(votingWrapper);
-            votingTitle.appendChild(votingClose);
+            votingHeader.appendChild(votingTitle);
+            votingHeader.appendChild(votingClose);
 
             votingList.forEach(voting => votingContent.appendChild(voting));
-            votingWrapper.appendChild(votingTitle);
+            votingWrapper.appendChild(votingHeader);
             votingWrapper.appendChild(votingContent);
 
             document.body.appendChild(votingWrapper);
