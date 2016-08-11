@@ -35,7 +35,6 @@ export default function (UserVoting) {
         }
 
         init(column, body) {
-            body = JSON.stringify(body);
             this.clear();
             this.getIssues(data => {
                 let issues = JSON.parse(data).issues;
@@ -43,7 +42,7 @@ export default function (UserVoting) {
                     let issue = issues[Math.ceil(Math.random() * issues.length)];
                     this.pushIssue(
                         issue,
-                        () => this.updateIssue(issue, body, () => this.init(column, body)))
+                        () => this.updateIssue(issue, JSON.stringify(body), () => this.init(column, body)))
                 }
             });
         }

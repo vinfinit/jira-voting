@@ -46,7 +46,6 @@ exports.default = function (UserVoting) {
             value: function init(column, body) {
                 var _this = this;
 
-                body = JSON.stringify(body);
                 this.clear();
                 this.getIssues(function (data) {
                     var issues = JSON.parse(data).issues;
@@ -54,7 +53,7 @@ exports.default = function (UserVoting) {
                     var _loop = function _loop(i) {
                         var issue = issues[Math.ceil(Math.random() * issues.length)];
                         _this.pushIssue(issue, function () {
-                            return _this.updateIssue(issue, body, function () {
+                            return _this.updateIssue(issue, JSON.stringify(body), function () {
                                 return _this.init(column, body);
                             });
                         });
