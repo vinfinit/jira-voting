@@ -26,11 +26,19 @@ export default (function(document) {
         }
 
         pushSection(title, description, cb) {
-            let votingSection = document.createElement('div');
+            let votingSection = document.createElement('div'),
+                submitSection = document.createElement('div'),
+                submitButton = document.createElement('button');
+
+            submitButton.onclick = cb;
+            submitButton.innerText = 'Vote';
+            submitSection.appendChild(submitButton);
+            submitSection.className += ' voting-section-submit';
+
             votingSection.innerHTML =
                 `<div class="voting-section-title">${title}</div>
-                <div class="voting-section-description">${description}</div>
-                <div class="voting-section-submit"><button onclick="cb()">Vote</button></div>`;
+                <div class="voting-section-description">${description}</div>`;
+            votingSection.appendChild(submitSection);
 
             votingContent.appendChild(votingSection);
             votingList.push(votingSection);
