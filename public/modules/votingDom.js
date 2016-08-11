@@ -41,7 +41,7 @@ exports.default = function (document) {
 
         _createClass(VotingContainer, [{
             key: 'pushSection',
-            value: function pushSection(title, description) {
+            value: function pushSection(title, description, cb) {
                 var votingSection = document.createElement('div');
                 votingSection.innerHTML = '<div class="voting-section-title">' + title + '</div>\n                <div class="voting-section-description">' + description + '</div>\n                <div class="voting-section-submit"><button onclick="cb()">Vote</button></div>';
 
