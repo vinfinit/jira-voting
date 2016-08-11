@@ -49,6 +49,7 @@ export default function (UserVoting, title) {
                 null,
                 {'Authorization': `Basic ${btoa(config.authorization.userName + ':' + config.authorization.password)}`},
                 cb);
+            return this;
         }
 
         pushIssue(issue, cb) {
@@ -57,6 +58,7 @@ export default function (UserVoting, title) {
         }
 
         updateIssue(issue, body, cb) {
+            var config = this.config;
             RequestManager.putRequest(
                 `${this.config.proxyPass}rest/api/2/issue/${issue.key}`,
                 body,

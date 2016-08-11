@@ -64,6 +64,7 @@ exports.default = function (UserVoting, title) {
             value: function getIssues(cb) {
                 var config = this.config;
                 _requestManager2.default.getRequest(config.proxyPass + 'rest/api/2/search?' + JqlStringBuilder.url(config), null, { 'Authorization': 'Basic ' + btoa(config.authorization.userName + ':' + config.authorization.password) }, cb);
+                return this;
             }
         }, {
             key: 'pushIssue',
@@ -74,6 +75,7 @@ exports.default = function (UserVoting, title) {
         }, {
             key: 'updateIssue',
             value: function updateIssue(issue, body, cb) {
+                var config = this.config;
                 _requestManager2.default.putRequest(this.config.proxyPass + 'rest/api/2/issue/' + issue.key, body, { 'Authorization': 'Basic ' + btoa(config.authorization.userName + ':' + config.authorization.password) }, cb);
                 return this;
             }
