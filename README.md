@@ -1,17 +1,18 @@
-<h1>User Voting</h1>
+# User Voting
 
-Widget that allows user to vote for stories directly in JIRA project backlog.
+## Widget that allows user to vote for stories directly in JIRA project backlog.
 
-// Import all needed modules
-
+### Import all needed modules
+```javascript
 import UserVoting from 'user-voting/public';
 import JiraVoting from 'user-voting/public/api/jira';
 
 var jiraVoting = JiraVoting(UserVoting);
+```
 
-// Set config
-// project, issueTypes, labels uses for create JQL string
-
+### Set config
+### project, issueTypes, labels uses for create JQL string
+```javascript
 var config = {
   proxyPass: '',
   title: '',
@@ -22,9 +23,11 @@ var config = {
   password: ''                      // Jira password
 }
 jiraVoting.setConfig(config);
+```
 
-// Init preconfigure jira voting
-// tableColumn - count of issue in table for voting
-// body - body for PUT request to Jira in current issue
-
+### Init preconfigure jira voting
+### tableColumn - count of issue in table for voting
+### body - body for PUT request to Jira in current issue
+```javascript
 jiraVoting.init(tableColumn, body);
+```
