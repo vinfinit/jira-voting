@@ -10,13 +10,18 @@ export default (function(document) {
 
     return class VotingContainer {
         constructor(label) {
-            let votingWrapper = document.createElement('section');
+            let votingWrapper = document.createElement('section'),
+                votingClose = document.createElement('button');
 
             votingWrapper.className = 'voting-wrapper';
             votingTitle.className = 'voting-title';
             votingContent.className = 'voting-content';
+            votingClose.className = 'voting-close';
 
-            votingTitle.innerHTML = label;
+            votingTitle.innerHTML = `<span>${label}</span>`;
+            votingClose.innerHTML = 'X';
+            votingClose.onclick = () => votingWrapper.parentNode.removeChild(votingWrapper);
+            votingTitle.appendChild(votingClose);
 
             votingList.forEach(voting => votingContent.appendChild(voting));
             votingWrapper.appendChild(votingTitle);

@@ -22,13 +22,20 @@ exports.default = function (document) {
         function VotingContainer(label) {
             _classCallCheck(this, VotingContainer);
 
-            var votingWrapper = document.createElement('section');
+            var votingWrapper = document.createElement('section'),
+                votingClose = document.createElement('button');
 
             votingWrapper.className = 'voting-wrapper';
             votingTitle.className = 'voting-title';
             votingContent.className = 'voting-content';
+            votingClose.className = 'voting-close';
 
-            votingTitle.innerHTML = label;
+            votingTitle.innerHTML = '<span>' + label + '</span>';
+            votingClose.innerHTML = 'X';
+            votingClose.onclick = function () {
+                return votingWrapper.parentNode.removeChild(votingWrapper);
+            };
+            votingTitle.appendChild(votingClose);
 
             votingList.forEach(function (voting) {
                 return votingContent.appendChild(voting);
