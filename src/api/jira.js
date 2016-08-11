@@ -4,7 +4,7 @@
 
 import RequestManager from '../modules/requestManager';
 
-export default function (UserVoting) {
+export default function (UserVoting, title) {
     if (!UserVoting) {
         throw new Error('Module UserVoting not found!');
     }
@@ -12,8 +12,8 @@ export default function (UserVoting) {
     let userVoting;
 
     class JiraVoting {
-        constructor(title) {
-            userVoting = new UserVoting(title);
+        constructor() {
+            userVoting = new UserVoting();
             this.config = {};
         }
 
@@ -83,7 +83,7 @@ export default function (UserVoting) {
         }
     }
 
-    UserVoting.register('api.jira', new JiraVoting());
+    UserVoting.register('api.jira', new JiraVoting(title));
 
     return UserVoting.module(`api.jira`);
 }

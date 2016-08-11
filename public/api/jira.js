@@ -8,7 +8,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Created by vinfinit on 8/7/16.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
 
-exports.default = function (UserVoting) {
+exports.default = function (UserVoting, title) {
     if (!UserVoting) {
         throw new Error('Module UserVoting not found!');
     }
@@ -16,10 +16,10 @@ exports.default = function (UserVoting) {
     var userVoting = void 0;
 
     var JiraVoting = function () {
-        function JiraVoting(title) {
+        function JiraVoting() {
             _classCallCheck(this, JiraVoting);
 
-            userVoting = new UserVoting(title);
+            userVoting = new UserVoting();
             this.config = {};
         }
 
@@ -114,7 +114,7 @@ exports.default = function (UserVoting) {
         return JqlStringBuilder;
     }();
 
-    UserVoting.register('api.jira', new JiraVoting());
+    UserVoting.register('api.jira', new JiraVoting(title));
 
     return UserVoting.module('api.jira');
 };
