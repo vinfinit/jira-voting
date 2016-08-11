@@ -49,6 +49,10 @@ export default function() {
             votingDom.clear();
             return this;
         }
+
+        setTitle(title) {
+            votingDom.setTitle(title);
+        }
     }
 
     return UserVoting;

@@ -37,6 +37,11 @@ exports.default = function () {
                 votingDom.clear();
                 return this;
             }
+        }, {
+            key: 'setTitle',
+            value: function setTitle(title) {
+                votingDom.setTitle(title);
+            }
         }], [{
             key: 'module',
             value: function module(path) {

@@ -5,12 +5,12 @@
 export default (function(document) {
 
     let votingList = [],
-        votingContent = document.createElement('section');
+        votingContent = document.createElement('section'),
+        votingTitle = document.createElement('div');
 
     return class VotingContainer {
         constructor(label) {
-            let votingWrapper = document.createElement('section'),
-                votingTitle = document.createElement('div');
+            let votingWrapper = document.createElement('section');
 
             votingWrapper.className = 'voting-wrapper';
             votingTitle.className = 'voting-title';
@@ -23,6 +23,10 @@ export default (function(document) {
             votingWrapper.appendChild(votingContent);
 
             document.body.appendChild(votingWrapper);
+        }
+
+        setTitle(label) {
+            votingTitle.innerHTML = label;
         }
 
         pushSection(title, description, cb) {

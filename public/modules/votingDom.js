@@ -15,14 +15,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 exports.default = function (document) {
 
     var votingList = [],
-        votingContent = document.createElement('section');
+        votingContent = document.createElement('section'),
+        votingTitle = document.createElement('div');
 
     return function () {
         function VotingContainer(label) {
             _classCallCheck(this, VotingContainer);
 
-            var votingWrapper = document.createElement('section'),
-                votingTitle = document.createElement('div');
+            var votingWrapper = document.createElement('section');
 
             votingWrapper.className = 'voting-wrapper';
             votingTitle.className = 'voting-title';
@@ -40,6 +40,11 @@ exports.default = function (document) {
         }
 
         _createClass(VotingContainer, [{
+            key: 'setTitle',
+            value: function setTitle(label) {
+                votingTitle.innerHTML = label;
+            }
+        }, {
             key: 'pushSection',
             value: function pushSection(title, description, cb) {
                 var votingSection = document.createElement('div'),

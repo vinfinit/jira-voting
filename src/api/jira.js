@@ -4,7 +4,7 @@
 
 import RequestManager from '../modules/requestManager';
 
-export default function (UserVoting, title) {
+export default function (UserVoting) {
     if (!UserVoting) {
         throw new Error('Module UserVoting not found!');
     }
@@ -22,6 +22,11 @@ export default function (UserVoting, title) {
             this.config.project = config.project;
             this.config.issueTypes = config.issueTypes;
             this.config.labels = config.labels;
+
+            if (config.title) {
+                this.config.title = config.title;
+                userVoting.setTitle(this.config.title);
+            }
 
             this.config.authorization = {
                 userName: config.userName,
