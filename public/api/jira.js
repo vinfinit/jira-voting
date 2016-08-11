@@ -41,6 +41,7 @@ exports.default = function (UserVoting, title) {
             value: function init(column, body) {
                 var _this = this;
 
+                body = JSON.stringify(body);
                 this.clear();
                 this.getIssues(function (data) {
                     var issues = JSON.parse(data).issues;
@@ -73,7 +74,7 @@ exports.default = function (UserVoting, title) {
         }, {
             key: 'updateIssue',
             value: function updateIssue(issue, body, cb) {
-                _requestManager2.default.putRequest(this.config.proxyPass + 'rest/api/2/issue/' + issue.key, body, cb);
+                _requestManager2.default.putRequest(this.config.proxyPass + 'rest/api/2/issue/' + issue.key, body, { 'Authorization': 'Basic ' + btoa(config.authorization.userName + ':' + config.authorization.password) }, cb);
                 return this;
             }
         }, {

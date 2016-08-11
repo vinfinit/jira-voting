@@ -30,6 +30,7 @@ export default function (UserVoting, title) {
         }
 
         init(column, body) {
+            body = JSON.stringify(body);
             this.clear();
             this.getIssues(data => {
                 var issues = JSON.parse(data).issues;
@@ -56,7 +57,11 @@ export default function (UserVoting, title) {
         }
 
         updateIssue(issue, body, cb) {
-            RequestManager.putRequest(`${this.config.proxyPass}rest/api/2/issue/${issue.key}`, body, cb);
+            RequestManager.putRequest(
+                `${this.config.proxyPass}rest/api/2/issue/${issue.key}`,
+                body,
+                {'Authorization': `Basic ${btoa(config.authorization.userName + ':' + config.authorization.password)}`},
+                cb);
             return this;
         }
 
