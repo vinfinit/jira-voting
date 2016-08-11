@@ -52,7 +52,7 @@ exports.default = function (UserVoting) {
                     var issues = JSON.parse(data).issues;
 
                     var _loop = function _loop(i) {
-                        var issue = Math.ceil(Math.random() * issues.length);
+                        var issue = issues[Math.ceil(Math.random() * issues.length)];
                         _this.pushIssue(issue, function () {
                             return _this.updateIssue(issue, body, function () {
                                 return _this.init(column, body);
