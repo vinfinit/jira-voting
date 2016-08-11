@@ -46,6 +46,7 @@ export default function (UserVoting) {
                         i--;
                         continue;
                     }
+                    indexes.add(index);
                     let issue = issues[index];
                     this.pushIssue(
                         issue,

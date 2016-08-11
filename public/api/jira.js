@@ -57,6 +57,7 @@ exports.default = function (UserVoting) {
                             _i--;
                             return 'continue';
                         }
+                        indexes.add(index);
                         var issue = issues[index];
                         _this.pushIssue(issue, function () {
                             return _this.updateIssue(issue, JSON.stringify(body), function () {
