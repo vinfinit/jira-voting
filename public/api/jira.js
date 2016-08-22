@@ -129,14 +129,15 @@ exports.default = function (UserVoting) {
                     return jqlString;
                 }
                 if (!config.jqlString && config.jqlComponents) {
-                    if (config.project) {
-                        jqlString += 'project = ' + config.project;
+                    var _config = _config.jqlComponents;
+                    if (_config.project) {
+                        jqlString += 'project = ' + _config.project;
                     }
-                    if (config.issueTypes) {
-                        jqlString += ' AND issuetype IN (' + JqlStringBuilder.create(config.issueTypes) + ')';
+                    if (_config.issueTypes) {
+                        jqlString += ' AND issuetype IN (' + JqlStringBuilder.create(_config.issueTypes) + ')';
                     }
-                    if (config.labels) {
-                        jqlString += ' AND labels IN (' + JqlStringBuilder.create(config.labels) + ')';
+                    if (_config.labels) {
+                        jqlString += ' AND labels IN (' + JqlStringBuilder.create(_config.labels) + ')';
                     }
                 }
 

@@ -100,6 +100,7 @@ export default (function(UserVoting) {
                 return jqlString;
             }
             if (!config.jqlString && config.jqlComponents) {
+                let config = config.jqlComponents;
                 if (config.project) {
                     jqlString += `project = ${config.project}`
                 }
