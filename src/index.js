@@ -55,5 +55,7 @@ export default function() {
         }
     }
 
+    window.UserVoting = UserVoting;
+
     return UserVoting;
 };

@@ -7,6 +7,10 @@ import Set from 'set-collection';
 
 export default function (UserVoting) {
     if (!UserVoting) {
+        UserVoting = window.UserVoting;
+    }
+
+    if (!UserVoting) {
         throw new Error('Module UserVoting not found!');
     }
 

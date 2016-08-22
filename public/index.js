@@ -70,6 +70,8 @@ exports.default = function () {
         return UserVoting;
     }();
 
+    window.UserVoting = UserVoting;
+
     return UserVoting;
 };
 

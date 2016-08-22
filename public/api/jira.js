@@ -10,6 +10,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 exports.default = function (UserVoting) {
     if (!UserVoting) {
+        UserVoting = window.UserVoting;
+    }
+
+    if (!UserVoting) {
         throw new Error('Module UserVoting not found!');
     }
 
