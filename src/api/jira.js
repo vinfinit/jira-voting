@@ -100,15 +100,15 @@ export default (function(UserVoting) {
                 return jqlString;
             }
             if (!config.jqlString && config.jqlComponents) {
-                let config = config.jqlComponents;
-                if (config.project) {
-                    jqlString += `project = ${config.project}`
+                let components = config.jqlComponents;
+                if (components.project) {
+                    jqlString += `project = ${components.project}`
                 }
-                if (config.issueTypes) {
-                    jqlString += ` AND issuetype IN (${JqlStringBuilder.create(config.issueTypes)})`;
+                if (components.issueTypes) {
+                    jqlString += ` AND issuetype IN (${JqlStringBuilder.create(components.issueTypes)})`;
                 }
-                if (config.labels) {
-                    jqlString += ` AND labels IN (${JqlStringBuilder.create(config.labels)})`;
+                if (components.labels) {
+                    jqlString += ` AND labels IN (${JqlStringBuilder.create(components.labels)})`;
                 }
             }
 
