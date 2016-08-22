@@ -8,7 +8,15 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Created by vinfinit on 8/7/16.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
 
-exports.default = function () {
+var _votingDom = require('./modules/votingDom');
+
+var _votingDom2 = _interopRequireDefault(_votingDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+exports.default = function (window) {
 
     var votingDom = void 0;
 
@@ -73,14 +81,4 @@ exports.default = function () {
     window.UserVoting = UserVoting;
 
     return UserVoting;
-};
-
-var _votingDom = require('./modules/votingDom');
-
-var _votingDom2 = _interopRequireDefault(_votingDom);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-;
+}(window);

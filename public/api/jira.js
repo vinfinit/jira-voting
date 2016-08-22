@@ -8,11 +8,19 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Created by vinfinit on 8/7/16.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
 
-exports.default = function (UserVoting) {
-    if (!UserVoting) {
-        UserVoting = window.UserVoting;
-    }
+var _requestManager = require('../modules/requestManager');
 
+var _requestManager2 = _interopRequireDefault(_requestManager);
+
+var _setCollection = require('set-collection');
+
+var _setCollection2 = _interopRequireDefault(_setCollection);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+exports.default = function (UserVoting) {
     if (!UserVoting) {
         throw new Error('Module UserVoting not found!');
     }
@@ -131,16 +139,4 @@ exports.default = function (UserVoting) {
     UserVoting.register('api.jira', new JiraVoting());
 
     return UserVoting.module('api.jira');
-};
-
-var _requestManager = require('../modules/requestManager');
-
-var _requestManager2 = _interopRequireDefault(_requestManager);
-
-var _setCollection = require('set-collection');
-
-var _setCollection2 = _interopRequireDefault(_setCollection);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+}(UserVoting);

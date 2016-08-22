@@ -5,11 +5,7 @@
 import RequestManager from '../modules/requestManager';
 import Set from 'set-collection';
 
-export default function (UserVoting) {
-    if (!UserVoting) {
-        UserVoting = window.UserVoting;
-    }
-
+export default (function(UserVoting) {
     if (!UserVoting) {
         throw new Error('Module UserVoting not found!');
     }
@@ -110,4 +106,4 @@ export default function (UserVoting) {
     UserVoting.register('api.jira', new JiraVoting());
 
     return UserVoting.module(`api.jira`);
-}
+}(UserVoting));

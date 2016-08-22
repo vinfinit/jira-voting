@@ -4,7 +4,7 @@
 
 import VotingDom from './modules/votingDom';
 
-export default function() {
+export default (function(window) {
 
     let votingDom;
 
@@ -58,4 +58,4 @@ export default function() {
     window.UserVoting = UserVoting;
 
     return UserVoting;
-};
+}(window));
