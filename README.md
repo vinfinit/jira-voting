@@ -9,16 +9,26 @@ import JiraVoting from 'user-voting/public/api/jira';
 
 var jiraVoting = JiraVoting(UserVoting);
 ```
+#### or use jsp style
+```javascript
+<script src="https://raw.githubusercontent.com/vinfinit/UserVoting/master/public/index.js">
+<script src="https://raw.githubusercontent.com/vinfinit/UserVoting/master/public/api/jira.js">
+
+var jiraVoting = UserVoting.module('api.jira');
+```
 
 ### Set config
-### project, issueTypes, labels uses for create JQL string
+#### jqlString or jqlComponents (uses JqlStringBuilder)
 ```javascript
 var config = {
-  proxyPass: '',
+  proxyPass: '',                    // path to nginx
   title: '',
-  project: ''                       // Jira project
-  issueTypes: ''                    // Jira issue types, example: ['Story', 'Task']
-  labels: ''                        // Jira labels, example: ['wow']
+  jqlString: '',
+  jqlComponents: {
+    project: 'EPMDHMTEST',
+    issueTypes: ['Story', 'Bug'],
+    labels: ''
+  },
   userName: ''                      // Jira user name
   password: ''                      // Jira password
 }
@@ -26,8 +36,16 @@ jiraVoting.setConfig(config);
 ```
 
 ### Init preconfigure jira voting
-### tableColumn - count of issue in table for voting
-### body - body for PUT request to Jira in current issue
+#### columnCount - count of issue in table for voting
+#### body - body for PUT request to Jira in current issue
 ```javascript
-jiraVoting.init(tableColumn, body);
+jiraVoting.init(columnCount, body);
+```
+Example:
+```javascript
+jiraVoting.init(2, {
+      fields: {
+          labels: ['votingTest3']
+      }
+  });
 ```
