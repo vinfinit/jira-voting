@@ -20,9 +20,15 @@ export default (function(UserVoting) {
 
         setConfig(config) {
             this.config.proxyPass = config.proxyPass;
-            this.config.project = config.project;
-            this.config.issueTypes = config.issueTypes;
-            this.config.labels = config.labels;
+            this.config.jqlString = config.jqlString;
+
+            if (config.jqlComponents) {
+                this.config.jqlComponents = {
+                    project: config.jqlComponents.project,
+                    issueTypes: config.jqlComponents.issueTypes,
+                    labels: config.jqlComponents.labels
+                };
+            }
 
             if (config.title) {
                 this.config.title = config.title;
@@ -88,13 +94,23 @@ export default (function(UserVoting) {
 
     class JqlStringBuilder {
         static url(config) {
-            let jqlString = `jql=project = ${config.project}`;
-            if (config.issueTypes) {
-                jqlString += ` AND issuetype IN (${JqlStringBuilder.create(config.issueTypes)})`;
+            let jqlString = `jql=`;
+            if (config.jqlString) {
+                jqlString += `${config.jqlString}`;
+                return jqlString;
             }
-            if (config.labels) {
-                jqlString += ` AND labels IN (${JqlStringBuilder.create(config.labels)})`;
+            if (!config.jqlString && config.jqlComponents) {
+                if (config.project) {
+                    jqlString += `project = ${config.project}`
+                }
+                if (config.issueTypes) {
+                    jqlString += ` AND issuetype IN (${JqlStringBuilder.create(config.issueTypes)})`;
+                }
+                if (config.labels) {
+                    jqlString += ` AND labels IN (${JqlStringBuilder.create(config.labels)})`;
+                }
             }
+
             return jqlString;
         }
 
