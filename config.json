@@ -1,5 +1,5 @@
 {
-  "publicPath": "public/",
+  "publicPath": "dist/",
   "stylus": "src/**/*.styl",
   "script": "src/**/*.js",
   "webpack": {

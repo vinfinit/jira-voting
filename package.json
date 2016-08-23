@@ -1,6 +1,6 @@
 {
   "name": "user-voting",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "user-voting for Jira",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -29,6 +29,7 @@
     "Jira",
     "voting"
   ],
+  "main": "./dist/index.js",
   "author": "uladzimir_artsemenka",
   "license": "ISC"
 }

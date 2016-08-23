@@ -12,5 +12,6 @@ import config from "../config.json";
 export default function () {
     return gulp.src(config.script)
         .pipe(babel())
+        .pipe(webpack(config.webpack))
         .pipe(gulp.dest(config.publicPath));
 };
