@@ -22,6 +22,7 @@ export default (function(UserVoting) {
             this.config.proxyPass = config.proxyPass;
             this.config.jqlString = config.jqlString;
             this.config.columnCount = config.columnCount || 2;
+            this.config.votingField = config.votingField;
             this.config.issue = {
                 header: config.issue.header,
                 body: config.issue.body
@@ -46,7 +47,8 @@ export default (function(UserVoting) {
             };
         }
 
-        init(body) {
+        init(config) {
+            this.setConfig(config);
             this.clear();
             this.getIssues(data => {
                 let issues = JSON.parse(data).issues,
@@ -61,7 +63,7 @@ export default (function(UserVoting) {
                     var issue = issues[index];
                     this.pushIssue(
                         issue,
-                        () => this.updateIssue(issue, JSON.stringify(body), () => this.init(this.config.columnCount, body)))
+                        () => this.updateIssue(issue, this.config.votingField, () => this.init(config)))
                 }
             });
         }
@@ -84,11 +86,15 @@ export default (function(UserVoting) {
             return this;
         }
 
-        updateIssue(issue, body, cb) {
-            var config = this.config;
+        updateIssue(issue, votingField, cb) {
+            var config = this.config,
+                body = { fields: {} };
+
+            body.fields[votingField] = parseInt(issue.fields[votingField]) + 1;
+
             RequestManager.putRequest(
                 `${this.config.proxyPass}rest/api/2/issue/${issue.key}`,
-                body,
+                JSON.stringify(body),
                 {'Authorization': `Basic ${btoa(config.authorization.userName + ':' + config.authorization.password)}`},
                 cb);
             return this;
