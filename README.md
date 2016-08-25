@@ -11,34 +11,28 @@ var jiraVoting = UserVoting.module('api.jira');
 ```
 
 ### Set config
-#### jqlString or jqlComponents (uses JqlStringBuilder)
 ```javascript
 var config = {
   proxyPass: '',                    // path to nginx
-  title: '',
+  title: '',                        // title of widget
   jqlString: '',
-  jqlComponents: {
+  jqlComponents: {                  // optional. jqlString has more priority
     project: 'EPMDHMTEST',
     issueTypes: ['Story', 'Bug'],
     labels: ''
   },
+  votingField: 'customfield_10005', // Jira field will be increment.  **Note: field must be a number**
+  columnCount: 3,
+  issue: {
+      header: ''                    // field from response of Jira added to header of column.  default null
+      body: 'summary'               // field from response of Jira added to body of column.  default null
+  },
   userName: ''                      // Jira user name
   password: ''                      // Jira password
 }
-jiraVoting.setConfig(config);
 ```
 
-### Init preconfigure jira voting
-#### columnCount - count of issue in table for voting
-#### body - body for PUT request to Jira in current issue
+### Init jira voting
 ```javascript
-jiraVoting.init(columnCount, body);
-```
-Example:
-```javascript
-jiraVoting.init(2, {
-      fields: {
-          labels: ['votingTest3']
-      }
-  });
+jiraVoting.init(config);
 ```
