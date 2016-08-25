@@ -94,7 +94,7 @@ export default (function(UserVoting) {
 
             RequestManager.putRequest(
                 `${this.config.proxyPass}rest/api/2/issue/${issue.key}`,
-                body,
+                JSON.stringify(body),
                 {'Authorization': `Basic ${btoa(config.authorization.userName + ':' + config.authorization.password)}`},
                 cb);
             return this;
