@@ -90,7 +90,7 @@ export default (function(UserVoting) {
             var config = this.config,
                 body = { fields: {} };
 
-            body.fields[votingField] = parseInt(issue.fields[votingField]) || 0 + 1;
+            body.fields[votingField] = (parseInt(issue.fields[votingField]) || 0) + 1;
 
             RequestManager.putRequest(
                 `${this.config.proxyPass}rest/api/2/issue/${issue.key}`,
