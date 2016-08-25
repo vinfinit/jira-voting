@@ -178,7 +178,7 @@
 	            votingClose.className = 'voting-close';
 
 	            votingTitle.innerHTML = '<span>' + label + '</span>';
-	            votingClose.innerHTML = 'X';
+	            votingClose.innerHTML = '×';
 	            votingClose.onclick = function () {
 	                return votingWrapper.parentNode.removeChild(votingWrapper);
 	            };
@@ -207,12 +207,12 @@
 	                    submitButton = document.createElement('button');
 
 	                submitButton.onclick = cb;
-	                submitButton.innerText = 'Vote';
+	                submitButton.innerHTML = '<div class="voting-section-title">' + title + '</div>\n                <div class="voting-section-description">' + description + '</div>';
 	                submitSection.appendChild(submitButton);
 	                submitSection.className += ' voting-section-submit';
+	                votingSection.className = 'voting-item';
 
-	                votingSection.innerHTML = '<div class="voting-section-title">' + title + '</div>\n                <div class="voting-section-description">' + description + '</div>';
-	                votingSection.appendChild(submitSection);
+	                votingSection.appendChild(submitButton);
 
 	                votingContent.appendChild(votingSection);
 	                votingList.push(votingSection);
