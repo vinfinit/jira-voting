@@ -292,6 +292,11 @@
 	            value: function setConfig(config) {
 	                this.config.proxyPass = config.proxyPass;
 	                this.config.jqlString = config.jqlString;
+	                this.config.columnCount = config.columnCount || 2;
+	                this.config.issue = {
+	                    header: config.issue.header,
+	                    body: config.issue.body
+	                };
 
 	                if (config.jqlComponents) {
 	                    this.config.jqlComponents = {
@@ -313,14 +318,14 @@
 	            }
 	        }, {
 	            key: 'init',
-	            value: function init(column, body) {
+	            value: function init(body) {
 	                var _this = this;
 
 	                this.clear();
 	                this.getIssues(function (data) {
 	                    var issues = JSON.parse(data).issues,
 	                        indexes = new _setCollection2.default();
-	                    for (var i = 0; i < column; i++) {
+	                    for (var i = 0; i < _this.config.columnCount; i++) {
 	                        var index = Math.ceil(Math.random() * (issues.length - 1));
 	                        if (indexes.has(index)) {
 	                            i--;
@@ -330,7 +335,7 @@
 	                        var issue = issues[index];
 	                        _this.pushIssue(issue, function () {
 	                            return _this.updateIssue(issue, JSON.stringify(body), function () {
-	                                return _this.init(column, body);
+	                                return _this.init(_this.config.columnCount, body);
 	                            });
 	                        });
 	                    }
@@ -346,7 +351,10 @@
 	        }, {
 	            key: 'pushIssue',
 	            value: function pushIssue(issue, cb) {
-	                userVoting.pushSection(issue.key, issue.fields.issuetype.description, cb);
+	                var header = this.config.issue.header,
+	                    body = this.config.issue.body;
+
+	                userVoting.pushSection(header ? issue.fields[header] : '', body ? issue.fields[body] : '', cb);
 	                return this;
 	            }
 	        }, {

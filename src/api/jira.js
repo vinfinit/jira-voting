@@ -21,6 +21,11 @@ export default (function(UserVoting) {
         setConfig(config) {
             this.config.proxyPass = config.proxyPass;
             this.config.jqlString = config.jqlString;
+            this.config.columnCount = config.columnCount || 2;
+            this.config.issue = {
+                header: config.issue.header,
+                body: config.issue.body
+            };
 
             if (config.jqlComponents) {
                 this.config.jqlComponents = {
@@ -41,12 +46,12 @@ export default (function(UserVoting) {
             };
         }
 
-        init(column, body) {
+        init(body) {
             this.clear();
             this.getIssues(data => {
                 let issues = JSON.parse(data).issues,
                     indexes = new Set();
-                for (var i = 0; i < column; i++) {
+                for (var i = 0; i < this.config.columnCount; i++) {
                     var index = Math.ceil(Math.random() * (issues.length - 1));
                     if (indexes.has(index)) {
                         i--;
@@ -56,7 +61,7 @@ export default (function(UserVoting) {
                     var issue = issues[index];
                     this.pushIssue(
                         issue,
-                        () => this.updateIssue(issue, JSON.stringify(body), () => this.init(column, body)))
+                        () => this.updateIssue(issue, JSON.stringify(body), () => this.init(this.config.columnCount, body)))
                 }
             });
         }
@@ -72,7 +77,10 @@ export default (function(UserVoting) {
         }
 
         pushIssue(issue, cb) {
-            userVoting.pushSection(issue.key, issue.fields.issuetype.description, cb);
+            var header = this.config.issue.header,
+                body = this.config.issue.body;
+
+            userVoting.pushSection(header ? issue.fields[header] : '', body ? issue.fields[body] : '', cb);
             return this;
         }
 
