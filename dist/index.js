@@ -365,7 +365,7 @@
 	                var config = this.config,
 	                    body = { fields: {} };
 
-	                body.fields[votingField] = parseInt(issue.fields[votingField]) + 1;
+	                body.fields[votingField] = parseInt(issue.fields[votingField]) || 0 + 1;
 
 	                _requestManager2.default.putRequest(this.config.proxyPass + 'rest/api/2/issue/' + issue.key, JSON.stringify(body), { 'Authorization': 'Basic ' + btoa(config.authorization.userName + ':' + config.authorization.password) }, cb);
 	                return this;
