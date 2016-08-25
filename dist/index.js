@@ -293,6 +293,7 @@
 	                this.config.proxyPass = config.proxyPass;
 	                this.config.jqlString = config.jqlString;
 	                this.config.columnCount = config.columnCount || 2;
+	                this.config.votingField = config.votingField;
 	                this.config.issue = {
 	                    header: config.issue.header,
 	                    body: config.issue.body
@@ -318,9 +319,10 @@
 	            }
 	        }, {
 	            key: 'init',
-	            value: function init(body) {
+	            value: function init(config) {
 	                var _this = this;
 
+	                this.setConfig(config);
 	                this.clear();
 	                this.getIssues(function (data) {
 	                    var issues = JSON.parse(data).issues,
@@ -334,8 +336,8 @@
 	                        indexes.add(index);
 	                        var issue = issues[index];
 	                        _this.pushIssue(issue, function () {
-	                            return _this.updateIssue(issue, JSON.stringify(body), function () {
-	                                return _this.init(_this.config.columnCount, body);
+	                            return _this.updateIssue(issue, _this.config.votingField, function () {
+	                                return _this.init(config);
 	                            });
 	                        });
 	                    }
@@ -359,8 +361,12 @@
 	            }
 	        }, {
 	            key: 'updateIssue',
-	            value: function updateIssue(issue, body, cb) {
-	                var config = this.config;
+	            value: function updateIssue(issue, votingField, cb) {
+	                var config = this.config,
+	                    body = { fields: {} };
+
+	                body.fields[votingField] = parseInt(issue.fields[votingField]) + 1;
+
 	                _requestManager2.default.putRequest(this.config.proxyPass + 'rest/api/2/issue/' + issue.key, body, { 'Authorization': 'Basic ' + btoa(config.authorization.userName + ':' + config.authorization.password) }, cb);
 	                return this;
 	            }
