@@ -21,7 +21,7 @@ export default (function(document) {
             votingClose.className = 'voting-close';
 
             votingTitle.innerHTML = `<span>${label}</span>`;
-            votingClose.innerHTML = 'X';
+            votingClose.innerHTML = '×';
             votingClose.onclick = () => votingWrapper.parentNode.removeChild(votingWrapper);
             votingHeader.appendChild(votingTitle);
             votingHeader.appendChild(votingClose);
@@ -43,14 +43,15 @@ export default (function(document) {
                 submitButton = document.createElement('button');
 
             submitButton.onclick = cb;
-            submitButton.innerText = 'Vote';
-            submitSection.appendChild(submitButton);
-            submitSection.className += ' voting-section-submit';
-
-            votingSection.innerHTML =
+            submitButton.innerHTML =
                 `<div class="voting-section-title">${title}</div>
                 <div class="voting-section-description">${description}</div>`;
-            votingSection.appendChild(submitSection);
+            submitSection.appendChild(submitButton);
+            submitSection.className += ' voting-section-submit';
+            votingSection.className = 'voting-item';
+
+
+            votingSection.appendChild(submitButton);
 
             votingContent.appendChild(votingSection);
             votingList.push(votingSection);
