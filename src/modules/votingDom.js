@@ -12,18 +12,38 @@ export default (function(document) {
         constructor(label) {
             let votingWrapper = document.createElement('section'),
                 votingHeader = document.createElement('div'),
-                votingClose = document.createElement('button');
+                votingClose = document.createElement('button'),
+                votingMinimize = document.createElement('button'),
+                votingMaximize = document.createElement('button');
 
             votingWrapper.className = 'voting-wrapper';
             votingHeader.className = 'voting-header';
             votingTitle.className = 'voting-title';
             votingContent.className = 'voting-content';
             votingClose.className = 'voting-close';
+            votingMinimize.className = 'voting-minimize';
+            votingMaximize.className = 'voting-maximize hide';
 
             votingTitle.innerHTML = `<span>${label}</span>`;
             votingClose.innerHTML = '×';
             votingClose.onclick = () => votingWrapper.parentNode.removeChild(votingWrapper);
+
+            votingMinimize.innerHTML = '_';
+            votingMinimize.onclick = () => {
+                votingContent.classList.add('hide');
+                votingMinimize.classList.add('hide');
+                votingMaximize.classList.remove('hide');
+            };
+            votingMaximize.innerHTML = '□';
+            votingMaximize.onclick = () => {
+                votingContent.classList.remove('hide');
+                votingMinimize.classList.remove('hide');
+                votingMaximize.classList.add('hide');
+            };
+
             votingHeader.appendChild(votingTitle);
+            votingHeader.appendChild(votingMinimize);
+            votingHeader.appendChild(votingMaximize);
             votingHeader.appendChild(votingClose);
 
             votingList.forEach(voting => votingContent.appendChild(voting));
