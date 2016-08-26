@@ -187,13 +187,13 @@
 	                return votingWrapper.parentNode.removeChild(votingWrapper);
 	            };
 
-	            votingMinimize.innerHTML = '_';
+	            votingMinimize.innerHTML = '↙';
 	            votingMinimize.onclick = function () {
 	                votingContent.classList.add('hide');
 	                votingMinimize.classList.add('hide');
 	                votingMaximize.classList.remove('hide');
 	            };
-	            votingMaximize.innerHTML = '□';
+	            votingMaximize.innerHTML = '↖';
 	            votingMaximize.onclick = function () {
 	                votingContent.classList.remove('hide');
 	                votingMinimize.classList.remove('hide');
