@@ -160,6 +160,7 @@
 	exports.default = function (document) {
 
 	    var votingList = [],
+	        votingWrapper = document.createElement('section'),
 	        votingContent = document.createElement('section'),
 	        votingTitle = document.createElement('div');
 
@@ -167,13 +168,12 @@
 	        function VotingContainer(label) {
 	            _classCallCheck(this, VotingContainer);
 
-	            var votingWrapper = document.createElement('section'),
-	                votingHeader = document.createElement('div'),
+	            var votingHeader = document.createElement('div'),
 	                votingClose = document.createElement('button'),
 	                votingMinimize = document.createElement('button'),
 	                votingMaximize = document.createElement('button');
 
-	            votingWrapper.className = 'voting-wrapper';
+	            votingWrapper.className = 'voting-wrapper hide';
 	            votingHeader.className = 'voting-header';
 	            votingTitle.className = 'voting-title';
 	            votingContent.className = 'voting-content';
@@ -231,6 +231,8 @@
 	                submitSection.appendChild(submitButton);
 	                submitSection.className += ' voting-section-submit';
 	                votingSection.className = 'voting-item';
+
+	                votingWrapper.classList.remove('hide');
 
 	                votingSection.appendChild(submitButton);
 

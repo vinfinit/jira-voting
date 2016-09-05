@@ -5,18 +5,18 @@
 export default (function(document) {
 
     let votingList = [],
+        votingWrapper = document.createElement('section'),
         votingContent = document.createElement('section'),
         votingTitle = document.createElement('div');
 
     return class VotingContainer {
         constructor(label) {
-            let votingWrapper = document.createElement('section'),
-                votingHeader = document.createElement('div'),
+            let votingHeader = document.createElement('div'),
                 votingClose = document.createElement('button'),
                 votingMinimize = document.createElement('button'),
                 votingMaximize = document.createElement('button');
 
-            votingWrapper.className = 'voting-wrapper';
+            votingWrapper.className = 'voting-wrapper hide';
             votingHeader.className = 'voting-header';
             votingTitle.className = 'voting-title';
             votingContent.className = 'voting-content';
@@ -70,6 +70,7 @@ export default (function(document) {
             submitSection.className += ' voting-section-submit';
             votingSection.className = 'voting-item';
 
+            votingWrapper.classList.remove('hide');
 
             votingSection.appendChild(submitButton);
 
