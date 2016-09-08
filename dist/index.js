@@ -184,7 +184,10 @@
 	            votingTitle.innerHTML = '<span>' + (config.title || '') + '</span>';
 	            votingClose.innerHTML = '×';
 	            votingClose.onclick = function () {
-	                return votingWrapper.parentNode.removeChild(votingWrapper);
+	                if (config.onClose) {
+	                    config.onClose();
+	                }
+	                votingWrapper.parentNode.removeChild(votingWrapper);
 	            };
 
 	            votingMinimize.innerHTML = '↙';
@@ -437,8 +440,8 @@
 	    }();
 
 	    function checkCondition() {
-	        if (!UserVoting) {
-	            return false;
+	        if (userVoting) {
+	            return true;
 	        }
 	    }
 

@@ -140,8 +140,8 @@ export default (function(UserVoting) {
     }
 
     function checkCondition() {
-        if (!UserVoting) {
-            return false;
+        if (userVoting) {
+            return true;
         }
     }
 

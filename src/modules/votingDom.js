@@ -26,7 +26,12 @@ export default (function(document) {
 
             votingTitle.innerHTML = `<span>${config.title || ''}</span>`;
             votingClose.innerHTML = '×';
-            votingClose.onclick = () => votingWrapper.parentNode.removeChild(votingWrapper);
+            votingClose.onclick = () => {
+                if (config.onClose) {
+                    config.onClose();
+                }
+                votingWrapper.parentNode.removeChild(votingWrapper);
+            };
 
             votingMinimize.innerHTML = '↙';
             votingMinimize.onclick = () => {
