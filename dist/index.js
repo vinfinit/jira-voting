@@ -360,12 +360,13 @@
 	            value: function init(config) {
 	                var _this = this;
 
+	                this.setConfig(config);
+
 	                var lastDate = localStorage.getItem(localStorageName);
 	                if (lastDate && lastDate + this.config.timeBlock > new Date().getTime()) {
 	                    return;
 	                }
 
-	                this.setConfig(config);
 	                userVoting = new UserVoting(this.config);
 	                this.clear();
 	                this.getIssues(function (data) {

@@ -61,12 +61,13 @@ export default (function(UserVoting) {
         }
 
         init(config) {
+            this.setConfig(config);
+
             let lastDate = localStorage.getItem(localStorageName);
             if (lastDate && lastDate + this.config.timeBlock > new Date().getTime()) {
                 return;
             }
 
-            this.setConfig(config);
             userVoting = new UserVoting(this.config);
             this.clear();
             this.getIssues(data => {
