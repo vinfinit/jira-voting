@@ -367,7 +367,7 @@
 	                    return;
 	                }
 
-	                userVoting = new UserVoting(this.config);
+	                userVoting = userVoting ? userVoting : new UserVoting(this.config);
 	                this.clear();
 	                this.getIssues(function (data) {
 	                    var issues = JSON.parse(data).issues,

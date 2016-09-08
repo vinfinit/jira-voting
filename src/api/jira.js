@@ -68,7 +68,7 @@ export default (function(UserVoting) {
                 return;
             }
 
-            userVoting = new UserVoting(this.config);
+            userVoting = userVoting ? userVoting : new UserVoting(this.config);
             this.clear();
             this.getIssues(data => {
                 let issues = JSON.parse(data).issues,
