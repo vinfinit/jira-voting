@@ -12,9 +12,11 @@ export default (function(UserVoting) {
 
     let userVoting;
 
+    let isVoiced = false,
+        localStorageName = 'votingBlock';
+
     class JiraVoting {
         constructor() {
-            userVoting = new UserVoting();
             this.config = {};
         }
 
@@ -38,17 +40,34 @@ export default (function(UserVoting) {
 
             if (config.title) {
                 this.config.title = config.title;
-                userVoting.setTitle(this.config.title);
             }
 
             this.config.authorization = {
                 userName: config.userName,
                 password: config.password
             };
+
+            this.config.timeBlock = config.timeBlock || 24 * 60 * 60 * 1000;
+
+            this.config.onClose = () => {
+                let localStorage = window.localStorage;
+                if (isVoiced && localStorage) {
+                    localStorage.setItem(localStorageName, new Date().getTime());
+                }
+                if (config.onClose) {
+                    config.onClose();
+                }
+            }
         }
 
         init(config) {
+            let lastDate = localStorage.getItem(localStorageName);
+            if (lastDate && lastDate + this.config.timeBlock > new Date().getTime()) {
+                return;
+            }
+
             this.setConfig(config);
+            userVoting = new UserVoting(this.config);
             this.clear();
             this.getIssues(data => {
                 let issues = JSON.parse(data).issues,
@@ -69,6 +88,10 @@ export default (function(UserVoting) {
         }
 
         getIssues(cb) {
+            if (!checkCondition()) {
+                return this;
+            }
+
             var config = this.config;
             RequestManager.getRequest(
                 `${config.proxyPass}rest/api/2/search?${JqlStringBuilder.url(config)}`,
@@ -79,6 +102,10 @@ export default (function(UserVoting) {
         }
 
         pushIssue(issue, cb) {
+            if (!checkCondition()) {
+                return this;
+            }
+
             var header = this.config.issue.header,
                 body = this.config.issue.body;
 
@@ -87,8 +114,14 @@ export default (function(UserVoting) {
         }
 
         updateIssue(issue, votingField, cb) {
+            if (!checkCondition()) {
+                return this;
+            }
+
             var config = this.config,
-                body = { fields: {} };
+                body = {fields: {}};
+
+            isVoiced = true;
 
             body.fields[votingField] = (parseInt(issue.fields[votingField]) || 0) + 1;
 
@@ -105,6 +138,13 @@ export default (function(UserVoting) {
             return this;
         }
     }
+
+    function checkCondition() {
+        if (!UserVoting) {
+            return false;
+        }
+    }
+
 
     class JqlStringBuilder {
         static url(config) {

@@ -77,10 +77,10 @@
 	    var votingDom = void 0;
 
 	    var UserVoting = function () {
-	        function UserVoting(title) {
+	        function UserVoting(config) {
 	            _classCallCheck(this, UserVoting);
 
-	            votingDom = new _votingDom2.default(title);
+	            votingDom = new _votingDom2.default(config);
 	        }
 
 	        _createClass(UserVoting, [{
@@ -165,7 +165,7 @@
 	        votingTitle = document.createElement('div');
 
 	    return function () {
-	        function VotingContainer(label) {
+	        function VotingContainer(config) {
 	            _classCallCheck(this, VotingContainer);
 
 	            var votingHeader = document.createElement('div'),
@@ -181,7 +181,7 @@
 	            votingMinimize.className = 'voting-minimize';
 	            votingMaximize.className = 'voting-maximize hide';
 
-	            votingTitle.innerHTML = '<span>' + label + '</span>';
+	            votingTitle.innerHTML = '<span>' + (config.title || '') + '</span>';
 	            votingClose.innerHTML = '×';
 	            votingClose.onclick = function () {
 	                return votingWrapper.parentNode.removeChild(votingWrapper);
@@ -216,8 +216,8 @@
 
 	        _createClass(VotingContainer, [{
 	            key: 'setTitle',
-	            value: function setTitle(label) {
-	                votingTitle.innerHTML = label;
+	            value: function setTitle(title) {
+	                votingTitle.innerHTML = title;
 	            }
 	        }, {
 	            key: 'pushSection',
@@ -301,11 +301,13 @@
 
 	    var userVoting = void 0;
 
+	    var isVoiced = false,
+	        localStorageName = 'votingBlock';
+
 	    var JiraVoting = function () {
 	        function JiraVoting() {
 	            _classCallCheck(this, JiraVoting);
 
-	            userVoting = new UserVoting();
 	            this.config = {};
 	        }
 
@@ -331,12 +333,23 @@
 
 	                if (config.title) {
 	                    this.config.title = config.title;
-	                    userVoting.setTitle(this.config.title);
 	                }
 
 	                this.config.authorization = {
 	                    userName: config.userName,
 	                    password: config.password
+	                };
+
+	                this.config.timeBlock = config.timeBlock || 24 * 60 * 60 * 1000;
+
+	                this.config.onClose = function () {
+	                    var localStorage = window.localStorage;
+	                    if (isVoiced && localStorage) {
+	                        localStorage.setItem(localStorageName, new Date().getTime());
+	                    }
+	                    if (config.onClose) {
+	                        config.onClose();
+	                    }
 	                };
 	            }
 	        }, {
@@ -344,7 +357,13 @@
 	            value: function init(config) {
 	                var _this = this;
 
+	                var lastDate = localStorage.getItem(localStorageName);
+	                if (lastDate && lastDate + this.config.timeBlock > new Date().getTime()) {
+	                    return;
+	                }
+
 	                this.setConfig(config);
+	                userVoting = new UserVoting(this.config);
 	                this.clear();
 	                this.getIssues(function (data) {
 	                    var issues = JSON.parse(data).issues,
@@ -368,6 +387,10 @@
 	        }, {
 	            key: 'getIssues',
 	            value: function getIssues(cb) {
+	                if (!checkCondition()) {
+	                    return this;
+	                }
+
 	                var config = this.config;
 	                _requestManager2.default.getRequest(config.proxyPass + 'rest/api/2/search?' + JqlStringBuilder.url(config), null, { 'Authorization': 'Basic ' + btoa(config.authorization.userName + ':' + config.authorization.password) }, cb);
 	                return this;
@@ -375,6 +398,10 @@
 	        }, {
 	            key: 'pushIssue',
 	            value: function pushIssue(issue, cb) {
+	                if (!checkCondition()) {
+	                    return this;
+	                }
+
 	                var header = this.config.issue.header,
 	                    body = this.config.issue.body;
 
@@ -384,8 +411,14 @@
 	        }, {
 	            key: 'updateIssue',
 	            value: function updateIssue(issue, votingField, cb) {
+	                if (!checkCondition()) {
+	                    return this;
+	                }
+
 	                var config = this.config,
 	                    body = { fields: {} };
+
+	                isVoiced = true;
 
 	                body.fields[votingField] = (parseInt(issue.fields[votingField]) || 0) + 1;
 
@@ -402,6 +435,12 @@
 
 	        return JiraVoting;
 	    }();
+
+	    function checkCondition() {
+	        if (!UserVoting) {
+	            return false;
+	        }
+	    }
 
 	    var JqlStringBuilder = function () {
 	        function JqlStringBuilder() {

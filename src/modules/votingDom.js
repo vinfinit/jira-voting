@@ -10,7 +10,7 @@ export default (function(document) {
         votingTitle = document.createElement('div');
 
     return class VotingContainer {
-        constructor(label) {
+        constructor(config) {
             let votingHeader = document.createElement('div'),
                 votingClose = document.createElement('button'),
                 votingMinimize = document.createElement('button'),
@@ -24,7 +24,7 @@ export default (function(document) {
             votingMinimize.className = 'voting-minimize';
             votingMaximize.className = 'voting-maximize hide';
 
-            votingTitle.innerHTML = `<span>${label}</span>`;
+            votingTitle.innerHTML = `<span>${config.title || ''}</span>`;
             votingClose.innerHTML = '×';
             votingClose.onclick = () => votingWrapper.parentNode.removeChild(votingWrapper);
 
@@ -53,8 +53,8 @@ export default (function(document) {
             document.body.appendChild(votingWrapper);
         }
 
-        setTitle(label) {
-            votingTitle.innerHTML = label;
+        setTitle(title) {
+            votingTitle.innerHTML = title;
         }
 
         pushSection(title, description, cb) {

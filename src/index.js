@@ -9,8 +9,8 @@ export default (function(window) {
     let votingDom;
 
     class UserVoting {
-        constructor(title) {
-            votingDom = new VotingDom(title);
+        constructor(config) {
+            votingDom = new VotingDom(config);
         }
 
         static module(path) {
