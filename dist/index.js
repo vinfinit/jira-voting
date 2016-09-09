@@ -229,7 +229,9 @@
 	                    submitSection = document.createElement('div'),
 	                    submitButton = document.createElement('button');
 
-	                submitButton.onclick = cb;
+	                submitButton.onclick = function () {
+	                    return cb(votingSection);
+	                };
 	                submitButton.innerHTML = '<div class="voting-section-title">' + title + '</div>\n                <div class="voting-section-description">' + description + '</div>';
 	                submitSection.appendChild(submitButton);
 	                submitSection.className += ' voting-section-submit';
@@ -367,10 +369,12 @@
 	                }
 
 	                userVoting = userVoting ? userVoting : new UserVoting(this.config);
-	                this.clear();
 	                this.getIssues(function (data) {
 	                    var issues = JSON.parse(data).issues,
 	                        indexes = new _setCollection2.default();
+
+	                    _this.clear();
+
 	                    for (var i = 0; i < _this.config.columnCount; i++) {
 	                        var index = Math.ceil(Math.random() * (issues.length - 1));
 	                        if (indexes.has(index)) {
@@ -379,8 +383,9 @@
 	                        }
 	                        indexes.add(index);
 	                        var issue = issues[index];
-	                        _this.pushIssue(issue, function () {
-	                            return _this.updateIssue(issue, _this.config.votingField, function () {
+	                        _this.pushIssue(issue, function (votingContainer) {
+	                            votingContainer.getElementsByClassName('voting-section-description')[0].innerHTML = '<div class="voting-spinner">';
+	                            _this.updateIssue(issue, _this.config.votingField, function () {
 	                                return _this.init(config);
 	                            });
 	                        });

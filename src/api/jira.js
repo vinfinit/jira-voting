@@ -68,10 +68,12 @@ export default (function(UserVoting) {
             }
 
             userVoting = userVoting ? userVoting : new UserVoting(this.config);
-            this.clear();
             this.getIssues(data => {
                 let issues = JSON.parse(data).issues,
                     indexes = new Set();
+
+                this.clear();
+
                 for (var i = 0; i < this.config.columnCount; i++) {
                     var index = Math.ceil(Math.random() * (issues.length - 1));
                     if (indexes.has(index)) {
@@ -82,7 +84,10 @@ export default (function(UserVoting) {
                     var issue = issues[index];
                     this.pushIssue(
                         issue,
-                        () => this.updateIssue(issue, this.config.votingField, () => this.init(config)))
+                        (votingContainer) => {
+                            votingContainer.getElementsByClassName('voting-section-description')[0].innerHTML = '<div class="voting-spinner">';
+                            this.updateIssue(issue, this.config.votingField, () => this.init(config))
+                        })
                 }
             });
         }

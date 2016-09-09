@@ -67,7 +67,7 @@ export default (function(document) {
                 submitSection = document.createElement('div'),
                 submitButton = document.createElement('button');
 
-            submitButton.onclick = cb;
+            submitButton.onclick = () => cb(votingSection);
             submitButton.innerHTML =
                 `<div class="voting-section-title">${title}</div>
                 <div class="voting-section-description">${description}</div>`;

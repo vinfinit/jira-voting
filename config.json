@@ -2,6 +2,7 @@
   "publicPath": "dist/",
   "stylus": "src/**/*.styl",
   "script": "src/**/*.js",
+  "resource": "src/resources/*",
   "webpack": {
     "config": {
       "module": {
