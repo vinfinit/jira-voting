@@ -46,7 +46,7 @@ export default (function(UserVoting) {
                 password: config.password
             };
 
-            this.config.timeBlock = config.timeBlock || 24 * 60 * 60 * 1000;
+            this.config.timeBlock = (config.timeBlock || 24) * 60 * 60 * 1000;
 
             this.config.onClose = () => {
                 let localStorage = window.localStorage;
