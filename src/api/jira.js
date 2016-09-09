@@ -12,8 +12,7 @@ export default (function(UserVoting) {
 
     let userVoting;
 
-    let isVoiced = false,
-        localStorageName = 'votingBlock';
+    let localStorageName = 'votingBlock';
 
     class JiraVoting {
         constructor() {
@@ -51,7 +50,7 @@ export default (function(UserVoting) {
 
             this.config.onClose = () => {
                 let localStorage = window.localStorage;
-                if (isVoiced && localStorage) {
+                if (localStorage) {
                     localStorage.setItem(localStorageName, new Date().getTime());
                 }
                 if (config.onClose) {
@@ -121,8 +120,6 @@ export default (function(UserVoting) {
 
             var config = this.config,
                 body = {fields: {}};
-
-            isVoiced = true;
 
             body.fields[votingField] = (parseInt(issue.fields[votingField]) || 0) + 1;
 

@@ -304,8 +304,7 @@
 
 	    var userVoting = void 0;
 
-	    var isVoiced = false,
-	        localStorageName = 'votingBlock';
+	    var localStorageName = 'votingBlock';
 
 	    var JiraVoting = function () {
 	        function JiraVoting() {
@@ -347,7 +346,7 @@
 
 	                this.config.onClose = function () {
 	                    var localStorage = window.localStorage;
-	                    if (isVoiced && localStorage) {
+	                    if (localStorage) {
 	                        localStorage.setItem(localStorageName, new Date().getTime());
 	                    }
 	                    if (config.onClose) {
@@ -421,8 +420,6 @@
 
 	                var config = this.config,
 	                    body = { fields: {} };
-
-	                isVoiced = true;
 
 	                body.fields[votingField] = (parseInt(issue.fields[votingField]) || 0) + 1;
 
