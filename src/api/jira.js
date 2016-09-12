@@ -37,6 +37,15 @@ export default (function(UserVoting) {
                 };
             }
 
+            if (!config.message) {
+                config.message = {};
+            }
+
+            this.config.message = {
+                success: config.message.success || 'Vote is accepted!',
+                failure: config.message.failure || 'Oops... something happened!'
+            };
+
             if (config.title) {
                 this.config.title = config.title;
             }
@@ -91,9 +100,9 @@ export default (function(UserVoting) {
                                 voteCount =>
                                     (data, status) => {
                                         if (200 <= status && status < 300) {
-                                            responseSection.innerHTML = `<div class="voting-section-success-title">Thank you!</div><div class="voting-section-success">Total votes: ${voteCount}</div>`;
+                                            responseSection.innerHTML = `<div class="voting-section-success-title">${this.config.message.success}!</div><div class="voting-section-success">Total votes: ${voteCount}</div>`;
                                         } else {
-                                            responseSection.innerHTML = `<div class="voting-section-failure">Sorry, we can't accept the vote.</div>`;
+                                            responseSection.innerHTML = `<div class="voting-section-failure">${this.config.message.failure}</div>`;
                                         }
                                         setTimeout(() => this.init(config), 2000);
                                     })
