@@ -84,9 +84,20 @@ export default (function(UserVoting) {
                     var issue = issues[index];
                     this.pushIssue(
                         issue,
-                        (votingContainer) => {
-                            votingContainer.getElementsByClassName('voting-section-description')[0].innerHTML = '<div class="voting-spinner">';
-                            this.updateIssue(issue, this.config.votingField, () => this.init(config))
+                        votingContainer => {
+                            let responseSection = votingContainer.getElementsByClassName('voting-section-description')[0];
+                            responseSection.innerHTML = '<div class="voting-spinner">';
+                            this.updateIssue(issue, this.config.votingField,
+                                voteCount =>
+                                    (data, status) => {
+                                        if (200 <= status && status < 300) {
+                                            responseSection.innerHTML = `<div class="voting-section-success-title">Thank you!</div><div class="voting-section-success">Total votes: ${voteCount}</div>`;
+                                        } else {
+                                            responseSection.innerHTML = `<div class="voting-section-failure">Sorry, we can't accept the vote.</div>`;
+                                        }
+                                        setTimeout(() => this.init(config), 2000);
+                                    })
+
                         })
                 }
             });
@@ -124,15 +135,16 @@ export default (function(UserVoting) {
             }
 
             var config = this.config,
-                body = {fields: {}};
+                body = {fields: {}},
+                voteCount = (parseInt(issue.fields[votingField]) || 0) + 1;
 
-            body.fields[votingField] = (parseInt(issue.fields[votingField]) || 0) + 1;
+            body.fields[votingField] = voteCount;
 
             RequestManager.putRequest(
                 `${this.config.proxyPass}rest/api/2/issue/${issue.key}`,
                 JSON.stringify(body),
                 {'Authorization': `Basic ${btoa(config.authorization.userName + ':' + config.authorization.password)}`},
-                cb);
+                cb(voteCount));
             return this;
         }
 

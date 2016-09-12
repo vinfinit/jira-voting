@@ -31,8 +31,10 @@ export default
             xhr.send(body);
 
             xhr.onreadystatechange = () => {
-                if (xhr.readyState != 4) return;
-                cb(xhr.responseText);
+                if (xhr.readyState != 4) {
+                    return;
+                }
+                cb(xhr.responseText, xhr.status);
             };
         }
     }

@@ -384,9 +384,19 @@
 	                        indexes.add(index);
 	                        var issue = issues[index];
 	                        _this.pushIssue(issue, function (votingContainer) {
-	                            votingContainer.getElementsByClassName('voting-section-description')[0].innerHTML = '<div class="voting-spinner">';
-	                            _this.updateIssue(issue, _this.config.votingField, function () {
-	                                return _this.init(config);
+	                            var responseSection = votingContainer.getElementsByClassName('voting-section-description')[0];
+	                            responseSection.innerHTML = '<div class="voting-spinner">';
+	                            _this.updateIssue(issue, _this.config.votingField, function (voteCount) {
+	                                return function (data, status) {
+	                                    if (200 <= status && status < 300) {
+	                                        responseSection.innerHTML = '<div class="voting-section-success-title">Thank you!</div><div class="voting-section-success">Total votes: ' + voteCount + '</div>';
+	                                    } else {
+	                                        responseSection.innerHTML = '<div class="voting-section-failure">Sorry, we can\'t accept the vote.</div>';
+	                                    }
+	                                    setTimeout(function () {
+	                                        return _this.init(config);
+	                                    }, 2000);
+	                                };
 	                            });
 	                        });
 	                    }
@@ -424,11 +434,12 @@
 	                }
 
 	                var config = this.config,
-	                    body = { fields: {} };
+	                    body = { fields: {} },
+	                    voteCount = (parseInt(issue.fields[votingField]) || 0) + 1;
 
-	                body.fields[votingField] = (parseInt(issue.fields[votingField]) || 0) + 1;
+	                body.fields[votingField] = voteCount;
 
-	                _requestManager2.default.putRequest(this.config.proxyPass + 'rest/api/2/issue/' + issue.key, JSON.stringify(body), { 'Authorization': 'Basic ' + btoa(config.authorization.userName + ':' + config.authorization.password) }, cb);
+	                _requestManager2.default.putRequest(this.config.proxyPass + 'rest/api/2/issue/' + issue.key, JSON.stringify(body), { 'Authorization': 'Basic ' + btoa(config.authorization.userName + ':' + config.authorization.password) }, cb(voteCount));
 	                return this;
 	            }
 	        }, {
@@ -545,8 +556,10 @@
 	            xhr.send(body);
 
 	            xhr.onreadystatechange = function () {
-	                if (xhr.readyState != 4) return;
-	                cb(xhr.responseText);
+	                if (xhr.readyState != 4) {
+	                    return;
+	                }
+	                cb(xhr.responseText, xhr.status);
 	            };
 	        }
 	    }]);
