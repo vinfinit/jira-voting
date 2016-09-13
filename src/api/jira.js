@@ -90,7 +90,7 @@ export default (function(UserVoting) {
                         continue;
                     }
                     indexes.add(index);
-                    var issue = issues[index];
+                    let issue = issues[index];
                     this.pushIssue(
                         issue,
                         votingContainer => {
@@ -100,7 +100,7 @@ export default (function(UserVoting) {
                                 voteCount =>
                                     (data, status) => {
                                         if (200 <= status && status < 300) {
-                                            responseSection.innerHTML = `<div class="voting-section-success-title">${this.config.message.success}!</div><div class="voting-section-success">Total votes: ${voteCount}</div>`;
+                                            responseSection.innerHTML = `<div class="voting-section-success-title">${this.config.message.success}</div><div class="voting-section-success">Total votes: ${voteCount}</div>`;
                                         } else {
                                             responseSection.innerHTML = `<div class="voting-section-failure">${this.config.message.failure}</div>`;
                                         }
