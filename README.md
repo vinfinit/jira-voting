@@ -27,6 +27,10 @@ var config = {
       header: ''                    // field from response of Jira added to header of column.  default null
       body: 'summary'               // field from response of Jira added to body of column.  default null
   },
+  message: {
+      success: 'Vote is accepted!',
+      failure: 'Oops... something happened!'
+  },
   userName: ''                      // Jira user name
   password: ''                      // Jira password
 }
