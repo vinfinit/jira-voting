@@ -21,6 +21,7 @@ var config = {
     issueTypes: ['Story', 'Bug'],
     labels: ''
   },
+  timeBlock: '24',                  // block widget after close (default: 24h)
   votingField: 'customfield_10005', // Jira field will be increment.  **Note: field must be a number**
   columnCount: 3,
   issue: {
