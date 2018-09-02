@@ -1,6 +1,6 @@
-# User Voting
+# Jira voting
 
-## Widget that allows user to vote for stories directly in JIRA project backlog.
+## Lightweight widget that allows user to vote for stories directly in JIRA project backlog.
 
 #### Include main modules
 ```javascript

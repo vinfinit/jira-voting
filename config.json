@@ -15,7 +15,7 @@
         }]
       },
       "output": {
-        "filename": "index.js"
+        "filename": "voting.js"
       }
     }
   }
